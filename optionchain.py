@@ -267,6 +267,7 @@ plt.bar(list(keys), list(total.values()), width=1)
 plt.xlabel('Strike Price')
 plt.title(f'{symbol.upper()} Max Pain')
 
+st.subheader('Maximum Pain')
 st.pyplot(fig)
 st.write(f"Maximum Pain: {bufferLow} < {max_pain} < {bufferHigh}")
 st.write("Put to call ratio:", round(pcr,2))
