@@ -319,8 +319,8 @@ with tab3:
     
 with tab4:
     st.header("Open Interest")
-    st.plotly_chart(fig1)
+    st.pyplot(fig1)
 
 with tab5:
     st.header("Option Volume")
-    st.plotly_chart(fig2)
+    st.pyplot(fig2)
