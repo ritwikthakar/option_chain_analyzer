@@ -115,7 +115,7 @@ symbol = st.sidebar.text_input('Enter Ticker', 'SPY')
 tk = yf.Ticker(symbol)
 r = st.sidebar.number_input('Enter Risk Free Rate', 1, value=(5))
 r = r/100
-expiry = st.sidebar.date_input("Expiry Date",datetime.date(2023, 1, 20))
+expiry = st.sidebar.date_input("Start Date",datetime.date(2023, 1, 20))
 expiry = expiry.strftime('%Y-%m-%d')
 close = tk.info['regularMarketPrice']
 st.write('Available Expiry Dates', tk.options)
@@ -162,12 +162,12 @@ call_df['Gamma'] = gamma(r, close, call_df['strike'], call_df['dte'], call_df['i
 call_df['Vega'] = vega(r, close, call_df['strike'], call_df['dte'], call_df['impliedVolatility'], type = 'c')
 call_df['Theta'] = theta(r, close, call_df['strike'], call_df['dte'], call_df['impliedVolatility'], type = 'c')
 call_df['Rho'] = rho(r, close, call_df['strike'], call_df['dte'], call_df['impliedVolatility'], type = 'c')
-st.subheader('Call Option')
+# st.subheader('Call Option')
 #call_df
 
 call_strike = call_df['strike']
 cs = st.sidebar.selectbox('Select Call Strike:', call_strike)
-st.write(call_df[call_df['strike'] == cs])
+# st.write(call_df[call_df['strike'] == cs])
 # In[11]:
 
 
@@ -177,12 +177,12 @@ put_df['Gamma'] = gamma(r, close, put_df['strike'], put_df['dte'], put_df['impli
 put_df['Vega'] = vega(r, close, put_df['strike'], put_df['dte'], put_df['impliedVolatility'], type = 'c')
 put_df['Theta'] = theta(r, close, put_df['strike'], put_df['dte'], put_df['impliedVolatility'], type = 'p')
 put_df['Rho'] = rho(r, close, put_df['strike'], put_df['dte'], put_df['impliedVolatility'], type = 'p')
-st.subheader('Put Option')
+# st.subheader('Put Option')
 #put_df
 
 put_strike = put_df['strike']
 ps = st.sidebar.selectbox('Select Put Strike:', put_strike)
-st.write(put_df[put_df['strike'] == ps])
+# st.write(put_df[put_df['strike'] == ps])
 
 
 def options_chain(tk, expiry):
@@ -284,13 +284,43 @@ plt.ylabel('Volume')
 plt.legend(loc = 'upper left')
 plt.title(f'{symbol.upper()} Option Volume')
 
-st.subheader('Maximum Pain')
-st.pyplot(fig)
-st.write(f"Maximum Pain: {bufferLow} < {max_pain} < {bufferHigh}")
-st.write("Put to call ratio:", round(pcr,2))
+# st.subheader('Maximum Pain')
+# st.pyplot(fig)
+# st.write(f"Maximum Pain: {bufferLow} < {max_pain} < {bufferHigh}")
+# st.write("Put to call ratio:", round(pcr,2))
 
-st.subheader('Open Interest')
-st.pyplot(fig1)
+# st.subheader('Open Interest')
+# st.pyplot(fig1)
 
-st.subheader('Option Volume')
-st.pyplot(fig2)
+# st.subheader('Option Volume')
+# st.pyplot(fig2)
+
+tab1, tab2, tab3, tab4, tab5 = st.tabs(['Option Chain', 'Individual Call Strike Analyzer','Max Pain' , "Open Interest", "Option Volume"])
+
+with tab1:
+    st.header("Option Chain")
+    st.subheader('Call Options Chain')
+    st.dataframe(call_df)
+    st.subheader('Put Options Chain')
+    st.dataframe(put_df)
+
+with tab2:
+    st.header("Individual Strike Price Analysis")
+    st.subheader("Call Strike Analysis")
+    st.write(call_df[call_df['strike'] == cs])
+    st.subheader("Put Strike Analysis")
+    st.write(put_df[put_df['strike'] == ps])
+    
+with tab3:
+    st.header("Max Pain")
+    st.pyplot(fig)
+    st.write(f"Maximum Pain: {bufferLow} < {max_pain} < {bufferHigh}")
+    st.write("Put to call ratio:", round(pcr,2))
+    
+with tab4:
+    st.header("Open Interest")
+    st.plotly_chart(fig1)
+
+with tab5:
+    st.header("Option Volume")
+    st.plotly_chart(fig2)
