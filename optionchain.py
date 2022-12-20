@@ -311,7 +311,6 @@ def getVerticalSpreadPrice(ticker, spreadType, expNo, longStrike, shortStrike):
         #get expiration dates
         expirationDates = op.get_expiration_dates(ticker)
         
-        st.write('- - - Getting Data - - -\n')
         
         #get data based on spread type, call or put spread
         if spreadType == 'call':
@@ -346,6 +345,8 @@ def getVerticalSpreadPrice(ticker, spreadType, expNo, longStrike, shortStrike):
         st.write(chainData)
         st.write('')
         
+        st.write('- - - Vertical Spread - - -\n')
+        
         #get spread price
         spreadPrice = chainData['Ask'][chainData['Strike'] == longStrike].iloc[0
                   ] - chainData['Bid'][chainData['Strike'] == shortStrike].iloc[0]
@@ -368,9 +369,104 @@ def getVerticalSpreadPrice(ticker, spreadType, expNo, longStrike, shortStrike):
     
     except IndexError:
         st.write('Strike data not available, try again.')
+
+def getDiagonalSpreadPrice(ticker, spreadType, longExpNo, shortExpNo,
+                            longStrike, shortStrike):
+    
+# #inputs
+# ticker = 'PLTR'
+# spreadType = 'put' #call or put
+# longExpNo = 7
+# shortExpNo = 5
+# longStrike = 20
+# shortStrike = 19
+
+    try:
+    
+        #get expiration dates
+        expirationDates = op.get_expiration_dates(ticker)
+        
+        st.write('- - - Diagonal Spread - - -\n')
+        
+        #get data based on spread type, call or put spread
+        if spreadType == 'call':
+            longChainData = op.get_calls(ticker, date = expirationDates[longExpNo])
+            shortChainData = op.get_calls(ticker, date = expirationDates[shortExpNo])
+        elif spreadType == 'put':
+            longChainData = op.get_puts(ticker, date = expirationDates[longExpNo])
+            shortChainData = op.get_puts(ticker, date = expirationDates[shortExpNo])
+        else: 
+            st.write('Please enter call or put for spreadType.')
+            return
+        
+        #trim data 
+        longChainData = longChainData[['Strike', 'Bid', 'Ask', 'Last Price']][
+            longChainData['Strike'] == longStrike]
+        shortChainData = shortChainData[['Strike', 'Bid', 'Ask', 'Last Price']][
+            shortChainData['Strike'] == shortStrike]
+        
+        #reset index
+        longChainData = longChainData.reset_index(drop = True)
+        shortChainData = shortChainData.reset_index(drop = True)
+        
+        #change to numeric data type
+        longChainData['Strike'] = pd.to_numeric(
+                longChainData['Strike'], errors = 'coerce')
+        longChainData['Bid'] = pd.to_numeric(
+                longChainData['Bid'], errors = 'coerce')
+        longChainData['Ask'] = pd.to_numeric(
+                longChainData['Ask'], errors = 'coerce')
+        longChainData['Last Price'] = pd.to_numeric(
+                longChainData['Last Price'], errors = 'coerce')
+        
+        shortChainData['Strike'] = pd.to_numeric(
+                shortChainData['Strike'], errors = 'coerce')
+        shortChainData['Bid'] = pd.to_numeric(
+                shortChainData['Bid'], errors = 'coerce')
+        shortChainData['Ask'] = pd.to_numeric(
+                shortChainData['Ask'], errors = 'coerce')
+        shortChainData['Last Price'] = pd.to_numeric(
+                shortChainData['Last Price'], errors = 'coerce')
+        
+        #create mid price for reference
+        longChainData['Mid'] = (longChainData['Bid'] + longChainData['Ask']) / 2
+        shortChainData['Mid'] = (shortChainData['Bid'] + shortChainData['Ask']) / 2
+        
+        #add expiration to dataframe
+        longChainData['Expiration'] = expirationDates[longExpNo]
+        shortChainData['Expiration'] = expirationDates[shortExpNo]
+        
+        st.write('Long Chain Data')
+#        st.write('')
+        st.write(longChainData, '\n - - - - - - - - -')
+        st.write('Short Chain Data')
+#        st.write('')
+        st.write(shortChainData, ' \n')
+        
+        #get spread price
+        spreadPrice = longChainData['Ask'].iloc[0] - shortChainData['Bid'].iloc[0]
+        
+        #print pricing
+        if spreadType == 'call' and spreadPrice > 0:
+            st.write('Long Call Diagonal Spread Price is $' + str(round(spreadPrice, 4)))
+        elif spreadType == 'call' and spreadPrice < 0:
+            st.write('Short Call Diagonal Spread Price is -$' + str(abs(round(spreadPrice, 4))))
+        elif spreadType == 'put' and spreadPrice > 0:
+            st.write('Long Put Diagonal Spread Price is $' + str(round(spreadPrice, 4)))
+        elif spreadType == 'put' and spreadPrice < 0:
+            st.write('Short Put Diagonal Spread Price is -$' + str(abs(round(spreadPrice, 4))))
+        elif longExpNo == shortExpNo and shortStrike == longStrike:
+            st.write('Strike prices are the same, no diagonal spreads here.')
+            return
+
+        #output
+        return round(spreadPrice, 4)
+    
+    except IndexError:
+        st.write('Strike data not available, try again.')
         
         
-tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(['Option Chain', 'Individual Strike','Max Pain' , "Open Interest", "Option Volume", "Vertical Spreads"])
+tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(['Option Chain', 'Individual Strike','Max Pain' , "Open Interest", "Option Volume", "Spreads"])
 
 with tab1:
     st.header("Option Chain")
@@ -405,8 +501,11 @@ with tab6:
     strike2 = st.selectbox('Select Short Strike:', call_strike)
     option_type = st.selectbox('Select Call or Put', ('call', 'put'))
     expirationDates = op.get_expiration_dates(symbol)
-    select_expiry = st.selectbox('Select Expiry', (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26))
-    getVerticalSpreadPrice(symbol, option_type, select_expiry, strike1, strike2)
+    select_expiry_l = st.selectbox('Select Long Expiry', (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26))
+    select_expiry_s = st.selectbox('Select Short Expiry', (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26))
+    getVerticalSpreadPrice(symbol, option_type, select_expiry_l, strike1, strike2)
+    getDiagonalSpreadPrice(symbol, option_type, select_expiry_l, select_expiry_s,strike1, strike2)
     for i,each in enumerate(expirationDates,start=1):
         st.write("{}.{}".format(i,each))
+
     
