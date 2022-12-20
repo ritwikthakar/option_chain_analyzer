@@ -1,5 +1,6 @@
 streamlit>=0.78.0
 yfinance
+yahoo_fin
 pandas
 numpy
 matplotlib
