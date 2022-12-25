@@ -301,7 +301,7 @@ plt.title(f'{symbol.upper()} Option Volume')
 options['abs'] = abs(close - options['strike'])
 closest = options.sort_values('abs')
 move = (closest['lastPrice'].iloc[0] +
-        closest['lastPrice'].iloc[1]) * 0.93
+        closest['lastPrice'].iloc[1]) * 1.1
 
 upper_move = close + move
 lower_move = close - move
