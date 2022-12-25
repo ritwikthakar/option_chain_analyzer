@@ -297,6 +297,27 @@ plt.title(f'{symbol.upper()} Option Volume')
 # st.subheader('Option Volume')
 # st.pyplot(fig2)
 
+#to match stock's price with the strike price
+options['abs'] = abs(close - options['strike'])
+closest = options.sort_values('abs')
+move = (closest['lastPrice'].iloc[0] +
+        closest['lastPrice'].iloc[1]) * 1.25
+
+upper_move = close + move
+lower_move = close - move
+
+b = pd.date_range(start ='2022-12-22', periods = 9)
+data = yf.download('SPY', start = '2022-12-01')
+#adding the future dates into the data dataframe
+data.index.append(b)
+fig5 = plt.figure(figsize = (15, 6))
+plt.plot(data['Adj Close'])
+plt.axhline(upper_move, linestyle = '--', alpha = 0.5, color = 'red')
+plt.axhline(lower_move, linestyle = '--', alpha = 0.5, color = 'green')
+plt.title(f'{symbol.upper()} Expected Move for Selected Expiry Date based on Straddle as of Last Close')
+plt.xlabel('Price')
+plt.ylabel('Date')
+
 def getVerticalSpreadPrice(ticker, spreadType, expNo, longStrike, shortStrike):
     
 # #inputs
@@ -466,7 +487,7 @@ def getDiagonalSpreadPrice(ticker, spreadType, longExpNo, shortExpNo,
         st.write('Strike data not available, try again.')
         
         
-tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(['Option Chain', 'Individual Strike','Max Pain' , "Open Interest", "Option Volume", "Spreads"])
+tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(['Option Chain', 'Individual Strike','Max Pain' , "Open Interest", "Option Volume", "Spreads", "Expected Move"])
 
 with tab1:
     st.header("Option Chain")
@@ -507,5 +528,8 @@ with tab6:
     getDiagonalSpreadPrice(symbol, option_type, select_expiry_l, select_expiry_s,strike1, strike2)
     for i,each in enumerate(expirationDates,start=1):
         st.write("{}.{}".format(i,each))
-
-    
+        
+with tab7:
+    st.header("Expected Move")
+    st.write("Expected price move between $",np.round(float(upper_move),2), "and $",np.round(float(lower_move),2), "in the range of $",np.round(move))
+    st.pyplot(fig5)
