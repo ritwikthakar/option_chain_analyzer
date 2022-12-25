@@ -311,7 +311,7 @@ data = yf.download('SPY', start = '2022-12-01')
 #adding the future dates into the data dataframe
 data.index.append(b)
 fig5 = plt.figure(figsize = (15, 6))
-plt.plot(data['Adj Close'])
+plt.plot(data['Close'])
 plt.axhline(upper_move, linestyle = '--', alpha = 0.5, color = 'red')
 plt.axhline(lower_move, linestyle = '--', alpha = 0.5, color = 'green')
 plt.title(f'{symbol.upper()} Expected Move for Selected Expiry Date based on Straddle as of Last Close')
