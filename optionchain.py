@@ -306,12 +306,13 @@ move = (closest['lastPrice'].iloc[0] +
 upper_move = close + move
 lower_move = close - move
 
-b = pd.date_range(start ='2022-12-22', periods = 9)
-data = yf.download('SPY', start = '2022-12-01')
+start = dt.datetime.today()-dt.timedelta(180)
+end = dt.datetime.today()
+data = yf.download(ticker, start, end)
 #adding the future dates into the data dataframe
-data.index.append(b)
+
 fig5 = plt.figure(figsize = (15, 6))
-plt.plot(data['Close'])
+plt.plot(data['Adj Close'])
 plt.axhline(upper_move, linestyle = '--', alpha = 0.5, color = 'red')
 plt.axhline(lower_move, linestyle = '--', alpha = 0.5, color = 'green')
 plt.title(f'{symbol.upper()} Expected Move for Selected Expiry Date based on Straddle as of Last Close')
