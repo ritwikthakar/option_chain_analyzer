@@ -308,7 +308,7 @@ lower_move = close - move
 
 start = dt.datetime.today()-dt.timedelta(180)
 end = dt.datetime.today()
-data = yf.download(ticker, start, end)
+data = yf.download(symbol, start, end)
 #adding the future dates into the data dataframe
 
 fig5 = plt.figure(figsize = (15, 6))
