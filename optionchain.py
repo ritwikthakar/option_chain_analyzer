@@ -532,5 +532,5 @@ with tab6:
         
 with tab7:
     st.header("Expected Move")
-    st.write("Expected price move between", np.round(float(upper_move),2), "and", np.round(float(lower_move),2), "in the range of", np.round(move))
+    st.write("Expected price move between", np.round(float(upper_move),2), "and", np.round(float(lower_move),2), "in the range of", np.round(move) "for" expiry "option expiry")
     st.pyplot(fig5)
