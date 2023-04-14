@@ -488,37 +488,42 @@ def getDiagonalSpreadPrice(ticker, spreadType, longExpNo, shortExpNo,
         st.write('Strike data not available, try again.')
         
         
-tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(['Option Chain', 'Individual Strike','Max Pain' , "Open Interest", "Option Volume", "Spreads", "Expected Move"])
+tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(["Expected Move", 'Max Pain' , "Open Interest", "Option Volume", 'Option Chain', 'Individual Strike', "Spreads"])
 
 with tab1:
+    st.header("Expected Move")
+    st.write("Expected price move between", np.round(float(upper_move),2), "and", np.round(float(lower_move),2), "in the range of", np.round(move), "for", expiry, "option expiry")
+    st.pyplot(fig5)
+
+with tab2:
+    st.header("Max Pain")
+    st.pyplot(fig)
+    st.write(f"Maximum Pain: {bufferLow} < {max_pain} < {bufferHigh}")
+    st.write("Put to call ratio:", round(pcr,2))
+
+with tab3:
+    st.header("Open Interest")
+    st.pyplot(fig1)
+
+with tab4:
+    st.header("Option Volume")
+    st.pyplot(fig2)
+    
+with tab5:
     st.header("Option Chain")
     st.subheader('Call Options Chain')
     st.dataframe(call_df)
     st.subheader('Put Options Chain')
     st.dataframe(put_df)
 
-with tab2:
+with tab6:
     st.header("Individual Strike Price Analysis")
     st.subheader("Call Strike Analysis")
     st.write(call_df[call_df['strike'] == cs])
     st.subheader("Put Strike Analysis")
     st.write(put_df[put_df['strike'] == ps])
     
-with tab3:
-    st.header("Max Pain")
-    st.pyplot(fig)
-    st.write(f"Maximum Pain: {bufferLow} < {max_pain} < {bufferHigh}")
-    st.write("Put to call ratio:", round(pcr,2))
-    
-with tab4:
-    st.header("Open Interest")
-    st.pyplot(fig1)
-
-with tab5:
-    st.header("Option Volume")
-    st.pyplot(fig2)
-
-with tab6:
+with tab7:
     strike1 = st.selectbox('Select Long Strike:', call_strike)
     strike2 = st.selectbox('Select Short Strike:', call_strike)
     option_type = st.selectbox('Select Call or Put', ('call', 'put'))
@@ -529,8 +534,4 @@ with tab6:
     getDiagonalSpreadPrice(symbol, option_type, select_expiry_l, select_expiry_s,strike1, strike2)
     for i,each in enumerate(expirationDates,start=1):
         st.write("{}.{}".format(i,each))
-        
-with tab7:
-    st.header("Expected Move")
-    st.write("Expected price move between", np.round(float(upper_move),2), "and", np.round(float(lower_move),2), "in the range of", np.round(move), "for", expiry, "option expiry")
-    st.pyplot(fig5)
+    
