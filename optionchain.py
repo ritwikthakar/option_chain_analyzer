@@ -68,7 +68,7 @@ def vega(r,s,k,T,sigma,type = 'c'):
   d1 = (np.log(s/k) + (r + sigma**2/2)*T)/(sigma*np.sqrt(T))
   d2 = d1 - sigma*np.sqrt(T)
   try:
-    vega = s*norm.pdf(d1, 0, 1)*np.sqrt(T)
+    vega = s*norm.pdf(d1)*np.sqrt(T)
     return vega
   except:
     print('Please Confirm all Parameteres')
@@ -78,9 +78,9 @@ def theta(r,s,k,T,sigma,type = 'c'):
   d2 = d1 - sigma*np.sqrt(T)
   try:
     if type == 'c':
-      theta = -s*norm.pdf(d1, 0, 1)*sigma/(2*np.sqrt(T)) - r*k*np.exp(-r*T)*norm.cdf(d2, 0, 1)
+      theta = -s*norm.pdf(d1)*sigma/(2*np.sqrt(T)) - r*k*np.exp(-r*T)*norm.cdf(d2)
     elif type == 'p':
-      theta = -s*norm.pdf(d1, 0, 1)*sigma/(2*np.sqrt(T)) + r*k*np.exp(-r*T)*norm.cdf(-d2, 0, 1)
+      theta = -s*norm.pdf(d1)*sigma/(2*np.sqrt(T)) + r*k*np.exp(-r*T)*norm.cdf(-d2)
     return theta
   except:
     print('Please Confirm all Parameteres')
