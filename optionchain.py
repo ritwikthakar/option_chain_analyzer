@@ -69,7 +69,7 @@ def vega(r,s,k,T,sigma,type = 'c'):
   d2 = d1 - sigma*np.sqrt(T)
   try:
     vega = s*norm.pdf(d1)*np.sqrt(T)
-    return vega
+    return vega/100
   except:
     print('Please Confirm all Parameteres')
 
@@ -81,7 +81,7 @@ def theta(r,s,k,T,sigma,type = 'c'):
       theta = -s*norm.pdf(d1)*sigma/(2*np.sqrt(T)) - r*k*np.exp(-r*T)*norm.cdf(d2)
     elif type == 'p':
       theta = -s*norm.pdf(d1)*sigma/(2*np.sqrt(T)) + r*k*np.exp(-r*T)*norm.cdf(-d2)
-    return theta
+    return theta/365
   except:
     print('Please Confirm all Parameteres')
 
