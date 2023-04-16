@@ -93,7 +93,7 @@ def rho(r,s,k,T,sigma,type = 'c'):
       rho = k*T*np.exp(-r*T)*norm.cdf(d2, 0, 1)
     elif type == 'p':
       rho = -k*T*np.exp(-r*T)*norm.cdf(-d2, 0, 1)
-    return rho
+    return rho/100
   except:
     print('Please Confirm all Parameteres')
 
@@ -164,6 +164,7 @@ call_df['Gamma'] = gamma(r, close, call_df['strike'], call_df['dte'], call_df['i
 call_df['Vega'] = vega(r, close, call_df['strike'], call_df['dte'], call_df['impliedVolatility'], type = 'c')
 call_df['Theta'] = theta(r, close, call_df['strike'], call_df['dte'], call_df['impliedVolatility'], type = 'c')
 call_df['Rho'] = rho(r, close, call_df['strike'], call_df['dte'], call_df['impliedVolatility'], type = 'c')
+call_df['Theta/Vega'] = call_df['Theta']/call_df['Vega']
 # st.subheader('Call Option')
 #call_df
 
@@ -179,6 +180,7 @@ put_df['Gamma'] = gamma(r, close, put_df['strike'], put_df['dte'], put_df['impli
 put_df['Vega'] = vega(r, close, put_df['strike'], put_df['dte'], put_df['impliedVolatility'], type = 'c')
 put_df['Theta'] = theta(r, close, put_df['strike'], put_df['dte'], put_df['impliedVolatility'], type = 'p')
 put_df['Rho'] = rho(r, close, put_df['strike'], put_df['dte'], put_df['impliedVolatility'], type = 'p')
+put_df['Theta/Vega'] = put_df['Theta']/put_df['Vega']
 # st.subheader('Put Option')
 #put_df
 
