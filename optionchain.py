@@ -127,33 +127,44 @@ st.write('Available Expiry Dates', tk.options)
 # Get options exp
 options = pd.DataFrame()
 opt = tk.option_chain(expiry)
+
 call_opts = opt.calls
 put_opts = opt.puts
-opt = pd.concat([opt.calls,opt.puts], axis=1)
-opt['expirationDate'] = expiry
-options = opt
-
+call_opts['CALL'] = 'c'
+put_opts['CALL'] = 'p'
+call_opts['expirationDate'] = expiry
+put_opts['expirationDate'] = expiry
 # Add 1 day to get the correct expiration date
-options['expirationDate'] = pd.to_datetime(options['expirationDate']) + datetime.timedelta(days = 1)
-options['dte'] = (options['expirationDate'] - datetime.datetime.today()).dt.days / 365
-
-# Boolean column if the option is a CALL
-options['CALL'] = options['contractSymbol'].str[4:].apply(lambda x: "C" in x)
-
-options[['bid', 'ask', 'strike']] = options[['bid', 'ask', 'strike']].apply(pd.to_numeric)
-
+call_opts['expirationDate'] = pd.to_datetime(call_opts['expirationDate']) + datetime.timedelta(days = 1)
+call_opts['dte'] = (call_opts['expirationDate'] - datetime.datetime.today()).dt.days / 365
+# Add 1 day to get the correct expiration date
+put_opts['expirationDate'] = pd.to_datetime(put_opts['expirationDate']) + datetime.timedelta(days = 1)
+put_opts['dte'] = (put_opts['expirationDate'] - datetime.datetime.today()).dt.days / 365
 # Drop unnecessary and meaningless columns
-options = options.drop(columns = ['contractSize', 'currency', 'change', 'percentChange', 'lastTradeDate'])
+call_opts = call_opts.drop(columns = ['contractSize', 'currency', 'change', 'percentChange', 'lastTradeDate'])
+put_opts = put_opts.drop(columns = ['contractSize', 'currency', 'change', 'percentChange', 'lastTradeDate'])
 
-options['CALL'] = options['CALL'].replace(True, 'c')
-options['CALL'] = options['CALL'].replace(False, 'p')
+# # Add 1 day to get the correct expiration date
+# options['expirationDate'] = pd.to_datetime(options['expirationDate']) + datetime.timedelta(days = 1)
+# options['dte'] = (options['expirationDate'] - datetime.datetime.today()).dt.days / 365
+
+# # Boolean column if the option is a CALL
+# options['CALL'] = options['contractSymbol'].str[4:].apply(lambda x: "C" in x)
+
+# options[['bid', 'ask', 'strike']] = options[['bid', 'ask', 'strike']].apply(pd.to_numeric)
+
+# # Drop unnecessary and meaningless columns
+# options = options.drop(columns = ['contractSize', 'currency', 'change', 'percentChange', 'lastTradeDate'])
+
+# options['CALL'] = options['CALL'].replace(True, 'c')
+# options['CALL'] = options['CALL'].replace(False, 'p')
 
 
 # In[8]:
 
 
-call_df = options.loc[lambda options: options['CALL'] == 'c']
-put_df = options.loc[lambda options: options['CALL'] == 'p']
+call_df = call_opts
+put_df = put_opts
 
 
 # In[10]:
