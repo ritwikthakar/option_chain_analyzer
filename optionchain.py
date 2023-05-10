@@ -138,8 +138,7 @@ options['expirationDate'] = pd.to_datetime(options['expirationDate']) + datetime
 options['dte'] = (options['expirationDate'] - datetime.datetime.today()).dt.days / 365
 
 # Boolean column if the option is a CALL
-options['CALL'] = options['contractSymbol'].str[4:].apply(
-   lambda x: "C" in x)
+options['CALL'] = options['contractSymbol'].str[4:].apply(lambda x: "C" in x)
 
 options[['bid', 'ask', 'strike']] = options[['bid', 'ask', 'strike']].apply(pd.to_numeric)
 
