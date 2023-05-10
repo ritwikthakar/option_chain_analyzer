@@ -127,7 +127,9 @@ st.write('Available Expiry Dates', tk.options)
 # Get options exp
 options = pd.DataFrame()
 opt = tk.option_chain(expiry)
-opt = pd.DataFrame().append(opt.calls).append(opt.puts)
+call_opts = opt.calls
+put_opts = opt.puts
+opt = pd.concat([opt.calls,opt.puts], axis=1)
 opt['expirationDate'] = expiry
 options = options.append(opt, ignore_index=True)
 
