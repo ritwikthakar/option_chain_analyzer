@@ -131,7 +131,7 @@ call_opts = opt.calls
 put_opts = opt.puts
 opt = pd.concat([opt.calls,opt.puts], axis=1)
 opt['expirationDate'] = expiry
-options = options.append(opt, ignore_index=True)
+options = opt
 
 # Add 1 day to get the correct expiration date
 options['expirationDate'] = pd.to_datetime(options['expirationDate']) + datetime.timedelta(days = 1)
