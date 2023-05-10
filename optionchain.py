@@ -312,7 +312,7 @@ plt.title(f'{symbol.upper()} Option Volume')
 # st.pyplot(fig2)
 
 #to match stock's price with the strike price
-options['abs'] = abs(close - options['strike'])
+options['abs'] = close - options['strike']
 closest = options.sort_values('abs')
 move = (closest['lastPrice'].iloc[0] +
         closest['lastPrice'].iloc[1]) * 0.98
