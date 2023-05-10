@@ -311,27 +311,27 @@ plt.title(f'{symbol.upper()} Option Volume')
 # st.subheader('Option Volume')
 # st.pyplot(fig2)
 
-#to match stock's price with the strike price
-options['abs'] = close - options['strike']
-closest = options.sort_values('abs')
-move = (closest['lastPrice'].iloc[0] +
-        closest['lastPrice'].iloc[1]) * 0.98
+# #to match stock's price with the strike price
+# options['abs'] = abs(close - options['strike'])
+# closest = options.sort_values('abs')
+# move = (closest['lastPrice'].iloc[0] +
+#         closest['lastPrice'].iloc[1]) * 0.98
 
-upper_move = close + move
-lower_move = close - move
+# upper_move = close + move
+# lower_move = close - move
 
-start = dt.datetime.today()-dt.timedelta(180)
-end = dt.datetime.today()
-data = yf.download(symbol, start, end)
-#adding the future dates into the data dataframe
+# start = dt.datetime.today()-dt.timedelta(180)
+# end = dt.datetime.today()
+# data = yf.download(symbol, start, end)
+# #adding the future dates into the data dataframe
 
-fig5 = plt.figure(figsize = (15, 6))
-plt.plot(data['Adj Close'])
-plt.axhline(upper_move, linestyle = '--', alpha = 0.5, color = 'red')
-plt.axhline(lower_move, linestyle = '--', alpha = 0.5, color = 'green')
-plt.title(f'{symbol.upper()} Expected Move for Selected Expiry Date based on Straddle as of Last Close')
-plt.xlabel('Price')
-plt.ylabel('Date')
+# fig5 = plt.figure(figsize = (15, 6))
+# plt.plot(data['Adj Close'])
+# plt.axhline(upper_move, linestyle = '--', alpha = 0.5, color = 'red')
+# plt.axhline(lower_move, linestyle = '--', alpha = 0.5, color = 'green')
+# plt.title(f'{symbol.upper()} Expected Move for Selected Expiry Date based on Straddle as of Last Close')
+# plt.xlabel('Price')
+# plt.ylabel('Date')
 
 def getVerticalSpreadPrice(ticker, spreadType, expNo, longStrike, shortStrike):
     
@@ -502,42 +502,42 @@ def getDiagonalSpreadPrice(ticker, spreadType, longExpNo, shortExpNo,
         st.write('Strike data not available, try again.')
         
         
-tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(["Expected Move", 'Max Pain' , "Open Interest", "Option Volume", 'Option Chain', 'Individual Strike', "Spreads"])
+tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(['Max Pain' , "Open Interest", "Option Volume", 'Option Chain', 'Individual Strike', "Spreads"])
+
+# with tab1:
+#     st.header("Expected Move")
+#     st.write("Expected price move between", np.round(float(upper_move),2), "and", np.round(float(lower_move),2), "in the range of", np.round(move), "for", expiry, "option expiry")
+#     st.pyplot(fig5)
 
 with tab1:
-    st.header("Expected Move")
-    st.write("Expected price move between", np.round(float(upper_move),2), "and", np.round(float(lower_move),2), "in the range of", np.round(move), "for", expiry, "option expiry")
-    st.pyplot(fig5)
-
-with tab2:
     st.header("Max Pain")
     st.pyplot(fig)
     st.write(f"Maximum Pain: {bufferLow} < {max_pain} < {bufferHigh}")
     st.write("Put to call ratio:", round(pcr,2))
 
-with tab3:
+with tab2:
     st.header("Open Interest")
     st.pyplot(fig1)
 
-with tab4:
+with tab3:
     st.header("Option Volume")
     st.pyplot(fig2)
     
-with tab5:
+with tab4:
     st.header("Option Chain")
     st.subheader('Call Options Chain')
     st.dataframe(call_df)
     st.subheader('Put Options Chain')
     st.dataframe(put_df)
 
-with tab6:
+with tab5:
     st.header("Individual Strike Price Analysis")
     st.subheader("Call Strike Analysis")
     st.write(call_df[call_df['strike'] == cs])
     st.subheader("Put Strike Analysis")
     st.write(put_df[put_df['strike'] == ps])
     
-with tab7:
+with tab6:
     strike1 = st.selectbox('Select Long Strike:', call_strike)
     strike2 = st.selectbox('Select Short Strike:', call_strike)
     option_type = st.selectbox('Select Call or Put', ('call', 'put'))
