@@ -209,22 +209,22 @@ def options_chain(tk, expiry):
     # Get options exp
     options = pd.DataFrame()
     opt = tk.option_chain(expiry)
-    opt = pd.DataFrame().append(opt.calls).append(opt.puts)
-    opt['expirationDate'] = expiry
-    options = options.append(opt, ignore_index=True)
-    
+    call_opts = opt.calls
+    put_opts = opt.puts
+    call_opts['CALL'] = 'c'
+    put_opts['CALL'] = 'p'
+    call_opts['expirationDate'] = expiry
+    put_opts['expirationDate'] = expiry
     # Add 1 day to get the correct expiration date
-    options['expirationDate'] = pd.to_datetime(options['expirationDate']) + datetime.timedelta(days = 1)
-    options['dte'] = (options['expirationDate'] - datetime.datetime.today()).dt.days / 365
-    
-    # Boolean column if the option is a CALL
-    options['CALL'] = options['contractSymbol'].str[4:].apply(
-        lambda x: "C" in x)
-    
-    options[['bid', 'ask', 'strike']] = options[['bid', 'ask', 'strike']].apply(pd.to_numeric)
-    
+    call_opts['expirationDate'] = pd.to_datetime(call_opts['expirationDate']) + datetime.timedelta(days = 1)
+    call_opts['dte'] = (call_opts['expirationDate'] - datetime.datetime.today()).dt.days / 365
+    # Add 1 day to get the correct expiration date
+    put_opts['expirationDate'] = pd.to_datetime(put_opts['expirationDate']) + datetime.timedelta(days = 1)
+    put_opts['dte'] = (put_opts['expirationDate'] - datetime.datetime.today()).dt.days / 365
     # Drop unnecessary and meaningless columns
-    options = options.drop(columns = ['contractSize', 'currency', 'change', 'percentChange', 'lastTradeDate', 'lastPrice', 'contractSymbol', 'bid', 'ask', 'impliedVolatility', 'inTheMoney', 'dte'])
+    call_opts = call_opts.drop(columns = ['contractSize', 'currency', 'change', 'percentChange', 'lastTradeDate'])
+    put_opts = put_opts.drop(columns = ['contractSize', 'currency', 'change', 'percentChange', 'lastTradeDate'])
+    options = pd.concat([call_opts,put_opts])
     
     return options
 
