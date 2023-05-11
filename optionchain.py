@@ -318,7 +318,7 @@ atmCall = opt.calls.loc[opt.calls['inTheMoney'] == False].iloc[0]
 atmPuts = opt.puts.loc[opt.puts['inTheMoney'] == False].iloc[0]
 
 move = (atmCall['lastPrice'] +
-        atmPuts['lastPrice']) * 2.25
+        atmPuts['lastPrice']) * 2.23
 
 upper_move = close + move
 lower_move = close - move
@@ -332,7 +332,7 @@ fig5 = plt.figure(figsize = (15, 6))
 plt.plot(data['Adj Close'])
 plt.axhline(upper_move, linestyle = '--', alpha = 0.5, color = 'red')
 plt.axhline(lower_move, linestyle = '--', alpha = 0.5, color = 'green')
-plt.title(f'{symbol.upper()} Expected Move for Selected Expiry Date based on Straddle as of Last Close')
+plt.title(f'{symbol.upper()} Expected Move for Selected Expiry Date based on Options Implied Volatlilty')
 plt.xlabel('Price')
 plt.ylabel('Date')
 
