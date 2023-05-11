@@ -318,7 +318,7 @@ atmCall = opt.calls.loc[opt.calls['inTheMoney'] == False].iloc[0]
 atmPuts = opt.puts.loc[opt.puts['inTheMoney'] == False].iloc[0]
 
 move = (atmCall['lastPrice'] +
-        atmPuts['lastPrice']) * 0.98
+        atmPuts['lastPrice'])
 
 upper_move = close + move
 lower_move = close - move
