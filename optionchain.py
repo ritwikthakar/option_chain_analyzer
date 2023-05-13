@@ -9,6 +9,8 @@ from scipy.stats import norm, bernoulli
 from scipy.sparse import csc_matrix
 import datetime as dt
 import streamlit as st
+from py_vollib.black_scholes import black_scholes
+from py_vollib.black_scholes.greeks.analytical import delta, gamma, theta, rho, vega
 
 # In[2]:
 
@@ -169,9 +171,9 @@ put_df = put_opts
 
 # In[10]:
 
-
+# delta('c', stock.history(period="max")["Close"][-1], strike, (expiration - pd.Timestamp.today()).days / 365, r, iv)
 call_df['BSM Value'] = bsm(r, close, call_df['strike'], call_df['dte'], call_df['impliedVolatility'], type = 'c')
-call_df['Delta'] = delta(r, close, call_df['strike'], call_df['dte'], call_df['impliedVolatility'], type = 'c')
+call_df['Delta'] = delta('c', close, call_df['strike'], call_df['dte'],r,call_df['impliedVolatility'])
 call_df['Gamma'] = gamma(r, close, call_df['strike'], call_df['dte'], call_df['impliedVolatility'], type = 'c')
 call_df['Vega'] = vega(r, close, call_df['strike'], call_df['dte'], call_df['impliedVolatility'], type = 'c')
 call_df['Theta'] = theta(r, close, call_df['strike'], call_df['dte'], call_df['impliedVolatility'], type = 'c')
