@@ -173,7 +173,7 @@ put_df = put_opts
 
 
 call_df['BSM Value'] = bsm(r, close, call_df['strike'], call_df['dte'], call_df['impliedVolatility'], type = 'c')
-call_df['Delta'] = delta(r, close, put_df['strike'], put_df['dte'], put_df['impliedVolatility'], type = 'c')
+call_df['Delta'] = delta(r, close, call_df['strike'], call_df['dte'], call_df['impliedVolatility'], type = 'c')
 call_df['Gamma'] = gamma(r, close, call_df['strike'], call_df['dte'], call_df['impliedVolatility'], type = 'c')
 call_df['Vega'] = vega(r, close, call_df['strike'], call_df['dte'], call_df['impliedVolatility'], type = 'c')
 call_df['Theta'] = theta(r, close, call_df['strike'], call_df['dte'], call_df['impliedVolatility'], type = 'c')
