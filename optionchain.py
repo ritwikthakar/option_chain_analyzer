@@ -284,7 +284,7 @@ for i in range(len(flat_strikes)):
 
 # plot
 keys = set(list(total.keys()))
-plt.bar(list(keys), list(total.values()), width=1)
+fig = plt.bar(list(keys), list(total.values()), width=1)
 plt.xlabel('Strike Price')
 plt.title(f'{symbol.upper()} Max Pain')
 
