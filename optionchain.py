@@ -211,7 +211,7 @@ def options_chain(tk, expiry):
     # Get options exp
     options = pd.DataFrame()
     opt = tk.option_chain(expiry.strip())
-    opt = pd.concat([opt.calls, opt.puts], ignore_index=True)SP
+    opt = pd.concat([opt.calls, opt.puts], ignore_index=True)
     opt['expirationDate'] = expiry
     options = pd.concat([options, opt], ignore_index=True)
 
