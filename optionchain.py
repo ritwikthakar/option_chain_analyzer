@@ -511,7 +511,7 @@ def getDiagonalSpreadPrice(ticker, spreadType, longExpNo, shortExpNo,
         st.write('Strike data not available, try again.')
         
         
-tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(['Expected Move Using IV','Max Pain' , "Open Interest", "Option Volume", 'Option Chain', 'Individual Strike', "Spreads"])
+tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(['Expected Move Using IV','Max Pain' , "Open Interest", "Implied Volatility", 'Option Chain', 'Individual Strike', "Spreads"])
 
 with tab1:
     st.header("Expected Move")
