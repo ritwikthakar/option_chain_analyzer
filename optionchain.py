@@ -299,12 +299,12 @@ plt.legend(loc = 'upper left')
 plt.title(f'{symbol.upper()} Open Interest')
 
 fig2 = plt.figure(figsize = (15, 6))
-plt.bar(call_df['strike'],call_df['volume'], label="Calls")
-plt.bar(put_df['strike'],put_df['volume'], label="Puts")
+plt.bar(call_df['strike'],call_df['impliedVolatility'], label="Calls")
+plt.bar(put_df['strike'],put_df['impliedVolatility'], label="Puts")
 plt.xlabel('Strike Price')
-plt.ylabel('Volume')
+plt.ylabel('Implied Volatility')
 plt.legend(loc = 'upper left')
-plt.title(f'{symbol.upper()} Option Volume')
+plt.title(f'{symbol.upper()} IV')
 
 # st.subheader('Maximum Pain')
 # st.pyplot(fig)
@@ -529,7 +529,7 @@ with tab3:
     st.pyplot(fig1)
 
 with tab4:
-    st.header("Option Volume")
+    st.header("Implied Volatility")
     st.pyplot(fig2)
     
 with tab5:
