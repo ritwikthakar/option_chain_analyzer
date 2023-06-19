@@ -181,6 +181,7 @@ call_df['Vega'] = vega(r, close, call_df['strike'], call_df['dte'], sigma, type 
 call_df['Theta'] = theta(r, close, call_df['strike'], call_df['dte'], sigma, type = 'c')
 call_df['Rho'] = rho(r, close, call_df['strike'], call_df['dte'], sigma, type = 'c')
 call_df['Theta/Vega'] = call_df['Theta']/call_df['Vega']
+call_df['GEX'] = close * call_df['Gamma'] * call_df['openInterest'] * 100 * close * 0.01
 # st.subheader('Call Option')
 #call_df
 
@@ -197,6 +198,7 @@ put_df['Vega'] = vega(r, close, put_df['strike'], put_df['dte'], sigma, type = '
 put_df['Theta'] = theta(r, close, put_df['strike'], put_df['dte'], sigma, type = 'p')
 put_df['Rho'] = rho(r, close, put_df['strike'], put_df['dte'], sigma, type = 'p')
 put_df['Theta/Vega'] = put_df['Theta']/put_df['Vega']
+put_df['GEX'] = -close * put_df['Gamma'] * put_df['openInterest'] * 100 * close * 0.01
 # st.subheader('Put Option')
 #put_df
 
