@@ -570,6 +570,6 @@ with tab7:
     for i,each in enumerate(expirationDates,start=1):
         st.write("{}.{}".format(i,each))
     
-with tab3:
+with tab8:
     st.header("Gamma Exposure")
     st.pyplot(fig3)
