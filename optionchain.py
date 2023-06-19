@@ -310,6 +310,14 @@ plt.ylabel('Implied Volatility')
 plt.legend(loc = 'upper left')
 plt.title(f'{symbol.upper()} IV')
 
+fig3 = plt.figure(figsize = (15, 6))
+plt.bar(call_df['strike'],call_df['GEX'], label="Call Gamma")
+plt.bar(put_df['strike'],put_df['GEX'], label="Put Gamma")
+plt.xlabel('Strike Price')
+plt.ylabel('Gamma Exposure')
+plt.legend(loc = 'upper left')
+plt.title(f'{symbol.upper()} Gamma Exposure')
+
 # st.subheader('Maximum Pain')
 # st.pyplot(fig)
 # st.write(f"Maximum Pain: {bufferLow} < {max_pain} < {bufferHigh}")
@@ -515,7 +523,7 @@ def getDiagonalSpreadPrice(ticker, spreadType, longExpNo, shortExpNo,
         st.write('Strike data not available, try again.')
         
         
-tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(['Expected Move Using IV','Max Pain' , "Open Interest", "Implied Volatility", 'Option Chain', 'Individual Strike', "Spreads"])
+tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8 = st.tabs(['Expected Move Using IV','Max Pain' , "Open Interest", "Implied Volatility", 'Option Chain', 'Individual Strike', "Spreads", 'Gamma Exposure'])
 
 with tab1:
     st.header("Expected Move")
@@ -562,3 +570,6 @@ with tab7:
     for i,each in enumerate(expirationDates,start=1):
         st.write("{}.{}".format(i,each))
     
+with tab3:
+    st.header("Gamma Exposure")
+    st.pyplot(fig3)
