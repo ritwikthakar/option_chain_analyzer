@@ -118,9 +118,9 @@ symbol = st.sidebar.text_input('Enter Ticker', 'SPY')
 tk = yf.Ticker(symbol)
 r1 = st.sidebar.number_input('Enter Risk Free Rate', 1, value=(5))
 r2=r1/100
-sigma1 = st.sidebar.number_input('Enter Implied Volatility',1, value=(10))
-sigma2 = sigma1/100
-expiry = st.sidebar.date_input("Start Date",datetime.date(2024, 1, 19))
+# sigma1 = st.sidebar.number_input('Enter Implied Volatility',1, value=(10))
+# sigma2 = sigma1/100
+expiry = st.sidebar.date_input("Option Expiry Date",datetime.date(2024, 1, 19))
 expiry = expiry.strftime('%Y-%m-%d')
 close_data = tk.history(period='1d')
 close = close_data.Close.values
