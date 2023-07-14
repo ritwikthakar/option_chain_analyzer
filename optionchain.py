@@ -174,12 +174,12 @@ put_df = put_opts
 # In[10]:
 
 
-call_df['BSM Value'] = bsm(r2, close, call_df['strike'], call_df['dte'], sigma2, type = 'c')
-call_df['Delta'] = delta(r2, close, call_df['strike'], call_df['dte'], sigma2, type = 'c')
-call_df['Gamma'] = gamma(r2, close, call_df['strike'], call_df['dte'], sigma2, type = 'c')
-call_df['Vega'] = vega(r2, close, call_df['strike'], call_df['dte'], sigma2, type = 'c')
-call_df['Theta'] = theta(r2, close, call_df['strike'], call_df['dte'], sigma2, type = 'c')
-call_df['Rho'] = rho(r2, close, call_df['strike'], call_df['dte'], sigma2, type = 'c')
+call_df['BSM Value'] = bsm(r2, close, call_df['strike'], call_df['dte'], call_df['impliedVolatility'], type = 'c')
+call_df['Delta'] = delta(r2, close, call_df['strike'], call_df['dte'], call_df['impliedVolatility'], type = 'c')
+call_df['Gamma'] = gamma(r2, close, call_df['strike'], call_df['dte'], call_df['impliedVolatility'], type = 'c')
+call_df['Vega'] = vega(r2, close, call_df['strike'], call_df['dte'], call_df['impliedVolatility'], type = 'c')
+call_df['Theta'] = theta(r2, close, call_df['strike'], call_df['dte'], call_df['impliedVolatility'], type = 'c')
+call_df['Rho'] = rho(r2, close, call_df['strike'], call_df['dte'], call_df['impliedVolatility'], type = 'c')
 call_df['Theta/Vega'] = call_df['Theta']/call_df['Vega']
 call_df['GEX'] = call_df['Gamma'] * call_df['openInterest'] * 100
 # st.subheader('Call Option')
@@ -191,12 +191,12 @@ cs = st.sidebar.selectbox('Select Call Strike:', call_strike)
 # In[11]:
 
 
-put_df['BSM Value'] = bsm(r2, close, put_df['strike'], put_df['dte'], sigma2, type = 'p')
-put_df['Delta'] = delta(r2, close, put_df['strike'], put_df['dte'], sigma2, type = 'p')
-put_df['Gamma'] = gamma(r2, close, put_df['strike'], put_df['dte'], sigma2, type = 'c')
-put_df['Vega'] = vega(r2, close, put_df['strike'], put_df['dte'], sigma2, type = 'c')
-put_df['Theta'] = theta(r2, close, put_df['strike'], put_df['dte'], sigma2, type = 'p')
-put_df['Rho'] = rho(r2, close, put_df['strike'], put_df['dte'], sigma2, type = 'p')
+put_df['BSM Value'] = bsm(r2, close, put_df['strike'], put_df['dte'], put_df['impliedVolatility'], type = 'p')
+put_df['Delta'] = delta(r2, close, put_df['strike'], put_df['dte'], put_df['impliedVolatility'], type = 'p')
+put_df['Gamma'] = gamma(r2, close, put_df['strike'], put_df['dte'], put_df['impliedVolatility'], type = 'c')
+put_df['Vega'] = vega(r2, close, put_df['strike'], put_df['dte'], put_df['impliedVolatility'], type = 'c')
+put_df['Theta'] = theta(r2, close, put_df['strike'], put_df['dte'], put_df['impliedVolatility'], type = 'p')
+put_df['Rho'] = rho(r2, close, put_df['strike'], put_df['dte'], put_df['impliedVolatility'], type = 'p')
 put_df['Theta/Vega'] = put_df['Theta']/put_df['Vega']
 put_df['GEX'] = put_df['Gamma'] * put_df['openInterest'] * -100
 # st.subheader('Put Option')
