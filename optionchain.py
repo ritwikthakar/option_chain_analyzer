@@ -29,7 +29,7 @@ r = 0.05 #Risk Free Rate
 s = 36.15 #Uderlying
 k = 40 #Strik
 T = 168/365 #Time
-sigma = 0.2071 #Vol
+sigma = 0.0998 #Vol
 
 
 # In[4]:
@@ -116,10 +116,10 @@ import matplotlib.pyplot as plt
 st.header("Option Chain Analyzer")
 symbol = st.sidebar.text_input('Enter Ticker', 'SPY')
 tk = yf.Ticker(symbol)
-# r = st.sidebar.number_input('Enter Risk Free Rate', 1, value=(5))
-# r = r/100
-# sigma = st.sidebar.number_input('Enter Implied Volatility', 1, value=(18.70))
-# sigma = sigma/100
+r1 = st.sidebar.number_input('Enter Risk Free Rate', 1, value=(5))
+r2=r1/100
+sigma1 = st.sidebar.number_input('Enter Implied Volatility',1, value=(10))
+sigma2 = sigma1/100
 expiry = st.sidebar.date_input("Start Date",datetime.date(2024, 1, 19))
 expiry = expiry.strftime('%Y-%m-%d')
 close_data = tk.history(period='1d')
@@ -174,12 +174,12 @@ put_df = put_opts
 # In[10]:
 
 
-call_df['BSM Value'] = bsm(r, close, call_df['strike'], call_df['dte'], sigma, type = 'c')
-call_df['Delta'] = delta(r, close, call_df['strike'], call_df['dte'], sigma, type = 'c')
-call_df['Gamma'] = gamma(r, close, call_df['strike'], call_df['dte'], sigma, type = 'c')
-call_df['Vega'] = vega(r, close, call_df['strike'], call_df['dte'], sigma, type = 'c')
-call_df['Theta'] = theta(r, close, call_df['strike'], call_df['dte'], sigma, type = 'c')
-call_df['Rho'] = rho(r, close, call_df['strike'], call_df['dte'], sigma, type = 'c')
+call_df['BSM Value'] = bsm(r2, close, call_df['strike'], call_df['dte'], sigma2, type = 'c')
+call_df['Delta'] = delta(r2, close, call_df['strike'], call_df['dte'], sigma2, type = 'c')
+call_df['Gamma'] = gamma(r2, close, call_df['strike'], call_df['dte'], sigma2, type = 'c')
+call_df['Vega'] = vega(r2, close, call_df['strike'], call_df['dte'], sigma2, type = 'c')
+call_df['Theta'] = theta(r2, close, call_df['strike'], call_df['dte'], sigma2, type = 'c')
+call_df['Rho'] = rho(r2, close, call_df['strike'], call_df['dte'], sigma2, type = 'c')
 call_df['Theta/Vega'] = call_df['Theta']/call_df['Vega']
 call_df['GEX'] = call_df['Gamma'] * call_df['openInterest'] * 100
 # st.subheader('Call Option')
@@ -191,12 +191,12 @@ cs = st.sidebar.selectbox('Select Call Strike:', call_strike)
 # In[11]:
 
 
-put_df['BSM Value'] = bsm(r, close, put_df['strike'], put_df['dte'], sigma, type = 'p')
-put_df['Delta'] = delta(r, close, put_df['strike'], put_df['dte'], sigma, type = 'p')
-put_df['Gamma'] = gamma(r, close, put_df['strike'], put_df['dte'], sigma, type = 'c')
-put_df['Vega'] = vega(r, close, put_df['strike'], put_df['dte'], sigma, type = 'c')
-put_df['Theta'] = theta(r, close, put_df['strike'], put_df['dte'], sigma, type = 'p')
-put_df['Rho'] = rho(r, close, put_df['strike'], put_df['dte'], sigma, type = 'p')
+put_df['BSM Value'] = bsm(r2, close, put_df['strike'], put_df['dte'], sigma2, type = 'p')
+put_df['Delta'] = delta(r2, close, put_df['strike'], put_df['dte'], sigma2, type = 'p')
+put_df['Gamma'] = gamma(r2, close, put_df['strike'], put_df['dte'], sigma2, type = 'c')
+put_df['Vega'] = vega(r2, close, put_df['strike'], put_df['dte'], sigma2, type = 'c')
+put_df['Theta'] = theta(r2, close, put_df['strike'], put_df['dte'], sigma2, type = 'p')
+put_df['Rho'] = rho(r2, close, put_df['strike'], put_df['dte'], sigma2, type = 'p')
 put_df['Theta/Vega'] = put_df['Theta']/put_df['Vega']
 put_df['GEX'] = put_df['Gamma'] * put_df['openInterest'] * -100
 # st.subheader('Put Option')
