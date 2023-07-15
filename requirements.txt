@@ -6,3 +6,4 @@ numpy
 matplotlib
 scipy
 py-vollib==1.0.1
+plotly
