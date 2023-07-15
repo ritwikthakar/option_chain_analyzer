@@ -474,7 +474,7 @@ layout = go.Layout(
     font_family='Monospace',
     font_color='#000000',
     font_size=20,
-    height=600, width=900,)
+    height=600, width=1000,)
 
 
 fig5.update_xaxes(
