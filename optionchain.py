@@ -3,7 +3,6 @@
 
 # In[1]:
 
-
 import numpy as np
 from scipy.stats import norm, bernoulli
 from scipy.sparse import csc_matrix
@@ -108,7 +107,8 @@ import yfinance as yf
 from yahoo_fin import options as op
 import datetime
 import matplotlib.pyplot as plt
-
+import plotly.graph_objs as go
+import plotly.express as px
 
 
 # In[6]:
@@ -118,9 +118,9 @@ symbol = st.sidebar.text_input('Enter Ticker', 'SPY')
 tk = yf.Ticker(symbol)
 r1 = st.sidebar.number_input('Enter Risk Free Rate', 1, value=(5))
 r2=r1/100
-# sigma1 = st.sidebar.number_input('Enter Implied Volatility',1, value=(10))
-# sigma2 = sigma1/100
-expiry = st.sidebar.date_input("Option Expiry Date",datetime.date(2024, 1, 19))
+sigma1 = st.sidebar.number_input('Enter Implied Volatility',1, value=(10))
+sigma2 = sigma1/100
+expiry = st.sidebar.date_input("Start Date",datetime.date(2024, 1, 19))
 expiry = expiry.strftime('%Y-%m-%d')
 close_data = tk.history(period='1d')
 close = close_data.Close.values
@@ -288,35 +288,127 @@ for i in range(len(flat_strikes)):
 
 # plot
 keys = set(list(total.keys()))
-fig = plt.figure(figsize = (15, 6))
-plt.bar(list(keys), list(total.values()), width=1)
-plt.xlabel('Strike Price')
-plt.title(f'{symbol.upper()} Max Pain')
+#fig = plt.figure(figsize = (15, 6))
+#plt.bar(list(keys), list(total.values()), width=1)
+#plt.xlabel('Strike Price')
+#plt.title(f'{symbol.upper()} Max Pain')
+
+fig = go.Figure()
+
+# Add call bars
+fig.add_trace(go.Bar(
+    x=list(keys),
+    y=list(total.values()),
+    name='Max Pain',
+    marker_color='blue'
+))
+
+# Update layout
+fig.update_layout(
+    title='Max Pain',
+    xaxis_title='Strike Price',
+    yaxis_title='Max Pain'
+)
 
 
-fig1 = plt.figure(figsize = (15, 6))
-plt.bar(call_df['strike'],call_df['openInterest'], label="Calls")
-plt.bar(put_df['strike'],put_df['openInterest'], label="Puts")
-plt.xlabel('Strike Price')
-plt.ylabel('Open Interest')
-plt.legend(loc = 'upper left')
-plt.title(f'{symbol.upper()} Open Interest')
+#fig1 = plt.figure(figsize = (15, 6))
+#plt.bar(call_df['strike'],call_df['openInterest'], label="Calls")
+#plt.bar(put_df['strike'],put_df['openInterest'], label="Puts")
+#plt.xlabel('Strike Price')
+#plt.ylabel('Open Interest')
+#plt.legend(loc = 'upper left')
+#plt.title(f'{symbol.upper()} Open Interest')
 
-fig2 = plt.figure(figsize = (15, 6))
-plt.bar(call_df['strike'],call_df['impliedVolatility'], label="Calls")
-plt.bar(put_df['strike'],put_df['impliedVolatility'], label="Puts")
-plt.xlabel('Strike Price')
-plt.ylabel('Implied Volatility')
-plt.legend(loc = 'upper left')
-plt.title(f'{symbol.upper()} IV')
+fig1 = go.Figure()
 
-fig3 = plt.figure(figsize = (15, 6))
-plt.bar(call_df['strike'],call_df['GEX'], label="Call Gamma")
-plt.bar(put_df['strike'],put_df['GEX'], label="Put Gamma")
-plt.xlabel('Strike Price')
-plt.ylabel('Gamma Exposure')
-plt.legend(loc = 'upper left')
-plt.title(f'{symbol.upper()} Gamma Exposure')
+# Add call bars
+fig1.add_trace(go.Bar(
+    x=call_df['strike'],
+    y=call_df['openInterest'],
+    name='Call Open Interest',
+    marker_color='green'
+))
+
+# Add put bars
+fig1.add_trace(go.Bar(
+    x=put_df['strike'],
+    y=put_df['openInterest'],
+    name='Put Open Interest',
+    marker_color='red'
+))
+
+# Update layout
+fig1.update_layout(
+    title='Open Interest',
+    xaxis_title='Strike Price',
+    yaxis_title='Open Interest'
+)
+
+#fig2 = plt.figure(figsize = (15, 6))
+#plt.bar(call_df['strike'],call_df['impliedVolatility'], label="Calls")
+#plt.bar(put_df['strike'],put_df['impliedVolatility'], label="Puts")
+#plt.xlabel('Strike Price')
+#plt.ylabel('Implied Volatility')
+#plt.legend(loc = 'upper left')
+#plt.title(f'{symbol.upper()} IV')
+
+fig2 = go.Figure()
+
+# Add call bars
+fig2.add_trace(go.Bar(
+    x=call_df['strike'],
+    y=call_df['impliedVolatility'],
+    name='Call IV',
+    marker_color='green'
+))
+
+# Add put bars
+fig2.add_trace(go.Bar(
+    x=put_df['strike'],
+    y=put_df['impliedVolatility'],
+    name='Put IV',
+    marker_color='red'
+))
+
+# Update layout
+fig2.update_layout(
+    title='Skew',
+    xaxis_title='Strike Price',
+    yaxis_title='Implied Volatility'
+)
+
+#fig3 = plt.figure(figsize = (15, 6))
+#plt.bar(call_df['strike'],call_df['GEX'], label="Call Gamma")
+#plt.bar(put_df['strike'],put_df['GEX'], label="Put Gamma")
+#plt.xlabel('Strike Price')
+#plt.ylabel('Gamma Exposure')
+#plt.legend(loc = 'upper left')
+#plt.title(f'{symbol.upper()} Gamma Exposure')
+
+fig3 = go.Figure()
+
+# Add call bars
+fig3.add_trace(go.Bar(
+    x=call_df['strike'],
+    y=call_df['GEX'],
+    name='Call GEX',
+    marker_color='green'
+))
+
+# Add put bars
+fig3.add_trace(go.Bar(
+    x=put_df['strike'],
+    y=put_df['GEX'],
+    name='Put',
+    marker_color='red'
+))
+
+# Update layout
+fig3.update_layout(
+    title='GEX',
+    xaxis_title='Strike Price',
+    yaxis_title='GEX'
+)
 
 # st.subheader('Maximum Pain')
 # st.pyplot(fig)
@@ -346,13 +438,64 @@ end = dt.datetime.today()
 data = yf.download(symbol, start, end)
 #adding the future dates into the data dataframe
 
-fig5 = plt.figure(figsize = (15, 6))
-plt.plot(data['Adj Close'])
-plt.axhline(upper_move, linestyle = '--', alpha = 0.5, color = 'red')
-plt.axhline(lower_move, linestyle = '--', alpha = 0.5, color = 'green')
-plt.title(f'{symbol.upper()} Expected Move for Selected Expiry Date based on Options Implied Volatlilty')
-plt.xlabel('Price')
-plt.ylabel('Date')
+fig5 = go.Figure(data=[go.Candlestick(x=data.index, open=data['Open'], high=data['High'], low=data['Low'], close=data['Adj Close'], increasing_line_color='green', decreasing_line_color='red')])
+#fig5.add_trace(go.Scatter(x=data.index, y=upper_move ,mode = 'markers',marker=dict(color='red', symbol='star', size = 14), name = 'Expected Move Up'))
+#fig5.add_trace(go.Scatter(x=data.index, y=lower_move ,mode = 'markers',marker=dict(color='green', symbol='star', size = 14), name = 'Expected Move Down'))
+#fig5.add_trace(go.Scatter(x=data.index, y=upper_move ,mode = 'lines',line=dict(color='red', width = 10), name = 'Expected Move Up'))
+#fig5.add_trace(go.Scatter(x=data.index, y=lower_move ,mode = 'lines',line=dict(color='green', width = 10), name = 'Expected Move Down'))
+
+fig5.add_shape(
+    type="line",
+    x0=data.index[0],
+    y0=upper_move,
+    x1=data.index[-1],
+    y1=upper_move,
+    line=dict(
+        color="red",
+        width=3,
+        dash="dashdot",
+    )
+)
+fig5.add_annotation(
+    x=data.index[-1],
+    y=upper_move,
+    showarrow=False,
+    font=dict(size=10),
+    xshift=10,
+    yshift=-10,
+    align="left"
+)
+
+layout = go.Layout(
+#         xaxis_rangeslider_visible=False, 
+#         xaxis_tradingcalendar=True,
+    plot_bgcolor='#efefef',
+    # Font Families
+    font_family='Monospace',
+    font_color='#000000',
+    font_size=20,
+    height=600, width=1000,)
+
+
+fig5.update_xaxes(
+            rangeslider_visible=False,
+            rangebreaks=[
+                # NOTE: Below values are bound (not single values), ie. hide x to y
+                dict(bounds=["sat", "mon"]),  # hide weekends, eg. hide sat to before mon
+                    # dict(values=["2019-12-25", "2020-12-24"])  # hide holidays (Christmas and New Year's, etc)
+                ]
+                    )
+fig5.update_layout(layout)
+
+#fig5 = plt.figure(figsize = (15, 6))
+#plt.plot(data['Adj Close'])
+#plt.axhline(upper_move, linestyle = '--', alpha = 0.5, color = 'red')
+#plt.axhline(lower_move, linestyle = '--', alpha = 0.5, color = 'green')
+#plt.title(f'{symbol.upper()} Expected Move for Selected Expiry Date based on Options Implied Volatlilty')
+#plt.xlabel('Price')
+#plt.ylabel('Date')
+
+
 
 def getVerticalSpreadPrice(ticker, spreadType, expNo, longStrike, shortStrike):
     
@@ -523,42 +666,48 @@ def getDiagonalSpreadPrice(ticker, spreadType, longExpNo, shortExpNo,
         st.write('Strike data not available, try again.')
         
         
-tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8 = st.tabs(['Expected Move Using IV','Max Pain' , "Open Interest", "Implied Volatility", 'Option Chain', 'Individual Strike', "Spreads", 'Gamma Exposure'])
+tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8 = st.tabs(['Expected Move IV','Max Pain' , "Open Interest", "Skew", 'Gamma Exposure', 'Option Chain', 'Individual Strike', "Spreads"])
 
 with tab1:
     st.header("Expected Move")
     st.write("Expected price move between", np.round(float(upper_move),2), "and", np.round(float(lower_move),2), "in the range of", np.round(move), "for", expiry, "option expiry")
-    st.pyplot(fig5)
+    #st.pyplot(fig5)
+    st.plotly_chart(fig5)
 
 with tab2:
     st.header("Max Pain")
-    st.pyplot(fig)
+#    st.pyplot(fig)
+    st.plotly_chart(fig)
     st.write(f"Maximum Pain: {bufferLow} < {max_pain} < {bufferHigh}")
     st.write("Put to call ratio:", round(pcr,2))
 
 with tab3:
     st.header("Open Interest")
-    st.pyplot(fig1)
+    st.plotly_chart(fig1)
 
 with tab4:
-    st.header("Implied Volatility")
-    st.pyplot(fig2)
-    
+    st.header("Skew")
+    st.plotly_chart(fig2)
+
 with tab5:
+    st.header("Gamma Exposure")
+    st.plotly_chart(fig3)
+    
+with tab6:
     st.header("Option Chain")
     st.subheader('Call Options Chain')
     st.dataframe(call_df)
     st.subheader('Put Options Chain')
     st.dataframe(put_df)
 
-with tab6:
+with tab7:
     st.header("Individual Strike Price Analysis")
     st.subheader("Call Strike Analysis")
     st.write(call_df[call_df['strike'] == cs])
     st.subheader("Put Strike Analysis")
     st.write(put_df[put_df['strike'] == ps])
     
-with tab7:
+with tab8:
     strike1 = st.selectbox('Select Long Strike:', call_strike)
     strike2 = st.selectbox('Select Short Strike:', call_strike)
     option_type = st.selectbox('Select Call or Put', ('call', 'put'))
@@ -569,7 +718,4 @@ with tab7:
     getDiagonalSpreadPrice(symbol, option_type, select_expiry_l, select_expiry_s,strike1, strike2)
     for i,each in enumerate(expirationDates,start=1):
         st.write("{}.{}".format(i,each))
-    
-with tab8:
-    st.header("Gamma Exposure")
-    st.pyplot(fig3)
+  
