@@ -1,8 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
-
 import numpy as np
 from scipy.stats import norm, bernoulli
 from scipy.sparse import csc_matrix
@@ -109,6 +104,7 @@ import datetime
 import matplotlib.pyplot as plt
 import plotly.graph_objs as go
 import plotly.express as px
+import plotly.subplots as sp
 
 
 # In[6]:
@@ -439,32 +435,11 @@ data = yf.download(symbol, start, end)
 #adding the future dates into the data dataframe
 
 fig5 = go.Figure(data=[go.Candlestick(x=data.index, open=data['Open'], high=data['High'], low=data['Low'], close=data['Adj Close'], increasing_line_color='green', decreasing_line_color='red')])
-# fig5.add_trace(go.Scatter(x=data.index, y=upper_move ,mode = 'markers',marker=dict(color='red', symbol='star', size = 14), name = 'Expected Move Up'))
-# fig5.add_trace(go.Scatter(x=data.index, y=lower_move ,mode = 'markers',marker=dict(color='green', symbol='star', size = 14), name = 'Expected Move Down'))
-#fig5.add_trace(go.Scatter(x=data.index, y=upper_move ,mode = 'lines',line=dict(color='red', width = 10), name = 'Expected Move Up'))
+#fig5.add_trace(go.Scatter(x=[data.index[0], data.index[-1]], y=[upper_move, upper_move] ,mode = 'markers',marker=dict(color='red', symbol='star', size = 14), name = 'Expected Move Up'))
+#fig5.add_trace(go.Scatter(x=[data.index[0], data.index[-1]], y=[lower_move,lower_move] ,mode = 'markers',marker=dict(color='green', symbol='star', size = 14), name = 'Expected Move Down'))
+#fig5.add_trace(go.Scatter(x=[data.index[0], data.index[-1]], y=[upper_move,upper_move] ,line=dict(color = 'red', width=2, dash='dash'), name = 'Expected Move Up'))
 #fig5.add_trace(go.Scatter(x=data.index, y=lower_move ,mode = 'lines',line=dict(color='green', width = 10), name = 'Expected Move Down'))
 
-# fig5.add_shape(
-#     type="line",
-#     x0=data.index[0],
-#     y0=upper_move,
-#     x1=data.index[-1],
-#     y1=upper_move,
-#     line=dict(
-#         color="red",
-#         width=3,
-#         dash="dashdot",
-#     )
-# )
-# fig5.add_annotation(
-#     x=data.index[-1],
-#     y=upper_move,
-#     showarrow=False,
-#     font=dict(size=10),
-#     xshift=10,
-#     yshift=-10,
-#     align="left"
-# )
 
 layout = go.Layout(
 #         xaxis_rangeslider_visible=False, 
@@ -718,4 +693,3 @@ with tab8:
     getDiagonalSpreadPrice(symbol, option_type, select_expiry_l, select_expiry_s,strike1, strike2)
     for i,each in enumerate(expirationDates,start=1):
         st.write("{}.{}".format(i,each))
-  
