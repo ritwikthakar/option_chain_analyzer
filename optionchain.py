@@ -439,8 +439,8 @@ data = yf.download(symbol, start, end)
 #adding the future dates into the data dataframe
 
 fig5 = go.Figure(data=[go.Candlestick(x=data.index, open=data['Open'], high=data['High'], low=data['Low'], close=data['Adj Close'], increasing_line_color='green', decreasing_line_color='red')])
-fig5.add_trace(go.Scatter(x=data.index, y=upper_move ,mode = 'markers',marker=dict(color='red', symbol='star', size = 14), name = 'Expected Move Up'))
-fig5.add_trace(go.Scatter(x=data.index, y=lower_move ,mode = 'markers',marker=dict(color='green', symbol='star', size = 14), name = 'Expected Move Down'))
+# fig5.add_trace(go.Scatter(x=data.index, y=upper_move ,mode = 'markers',marker=dict(color='red', symbol='star', size = 14), name = 'Expected Move Up'))
+# fig5.add_trace(go.Scatter(x=data.index, y=lower_move ,mode = 'markers',marker=dict(color='green', symbol='star', size = 14), name = 'Expected Move Down'))
 #fig5.add_trace(go.Scatter(x=data.index, y=upper_move ,mode = 'lines',line=dict(color='red', width = 10), name = 'Expected Move Up'))
 #fig5.add_trace(go.Scatter(x=data.index, y=lower_move ,mode = 'lines',line=dict(color='green', width = 10), name = 'Expected Move Down'))
 
