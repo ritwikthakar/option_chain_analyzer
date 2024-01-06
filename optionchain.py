@@ -116,7 +116,7 @@ r1 = st.sidebar.number_input('Enter Risk Free Rate', 1, value=(5))
 r2=r1/100
 sigma1 = st.sidebar.number_input('Enter Implied Volatility',1, value=(10))
 sigma2 = sigma1/100
-expiry = st.sidebar.date_input("Start Date",datetime.date(2024, 1, 19))
+expiry = st.sidebar.date_input("Start Date",datetime.date(2025, 1, 17))
 expiry = expiry.strftime('%Y-%m-%d')
 close_data = tk.history(period='1d')
 close = close_data.Close.values
@@ -189,8 +189,8 @@ cs = st.sidebar.selectbox('Select Call Strike:', call_strike)
 
 put_df['BSM Value'] = bsm(r2, close, put_df['strike'], put_df['dte'], put_df['impliedVolatility'], type = 'p')
 put_df['Delta'] = delta(r2, close, put_df['strike'], put_df['dte'], put_df['impliedVolatility'], type = 'p')
-put_df['Gamma'] = gamma(r2, close, put_df['strike'], put_df['dte'], put_df['impliedVolatility'], type = 'c')
-put_df['Vega'] = vega(r2, close, put_df['strike'], put_df['dte'], put_df['impliedVolatility'], type = 'c')
+put_df['Gamma'] = gamma(r2, close, put_df['strike'], put_df['dte'], put_df['impliedVolatility'], type = 'p')
+put_df['Vega'] = vega(r2, close, put_df['strike'], put_df['dte'], put_df['impliedVolatility'], type = 'p')
 put_df['Theta'] = theta(r2, close, put_df['strike'], put_df['dte'], put_df['impliedVolatility'], type = 'p')
 put_df['Rho'] = rho(r2, close, put_df['strike'], put_df['dte'], put_df['impliedVolatility'], type = 'p')
 put_df['Theta/Vega'] = put_df['Theta']/put_df['Vega']
