@@ -202,6 +202,8 @@ put_strike = put_df['strike']
 ps = st.sidebar.selectbox('Select Put Strike:', put_strike)
 # st.write(put_df[put_df['strike'] == ps])
 
+total_gex = call_df['GEX'].sum() + put_df['GEX']
+
 
 def options_chain(tk, expiry):
     '''
@@ -667,6 +669,7 @@ with tab4:
 with tab5:
     st.header("Gamma Exposure")
     st.plotly_chart(fig3)
+    st.write(f"Total Gex:", total_gex)
     
 with tab6:
     st.header("Option Chain")
