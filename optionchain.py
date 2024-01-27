@@ -390,7 +390,7 @@ fig3 = go.Figure()
 # Add call bars
 fig3.add_trace(go.Bar(
     x=call_df['strike'],
-    y=call_df['GEX'],
+    y=call_df['gamex'],
     name='Call GEX',
     marker_color='green'
 ))
@@ -398,7 +398,7 @@ fig3.add_trace(go.Bar(
 # Add put bars
 fig3.add_trace(go.Bar(
     x=put_df['strike'],
-    y=put_df['GEX'],
+    y=put_df['gamex'],
     name='Put',
     marker_color='red'
 ))
