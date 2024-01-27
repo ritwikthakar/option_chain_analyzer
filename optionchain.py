@@ -178,6 +178,7 @@ call_df['Theta'] = theta(r2, close, call_df['strike'], call_df['dte'], call_df['
 call_df['Rho'] = rho(r2, close, call_df['strike'], call_df['dte'], call_df['impliedVolatility'], type = 'c')
 call_df['Theta/Vega'] = call_df['Theta']/call_df['Vega']
 call_df['GEX'] = call_df['Gamma'] * call_df['openInterest'] * 100
+call_df['gamex'] = call_df['Gamma'] * call_df['openInterest'] * call_df['lastPrice'] * 100 
 # st.subheader('Call Option')
 #call_df
 
@@ -195,6 +196,7 @@ put_df['Theta'] = theta(r2, close, put_df['strike'], put_df['dte'], put_df['impl
 put_df['Rho'] = rho(r2, close, put_df['strike'], put_df['dte'], put_df['impliedVolatility'], type = 'p')
 put_df['Theta/Vega'] = put_df['Theta']/put_df['Vega']
 put_df['GEX'] = put_df['Gamma'] * put_df['openInterest'] * 100 * -1
+put_df['gamex'] = put_df['Gamma'] * put_df['openInterest'] * put_df['lastPrice'] * 100
 # st.subheader('Put Option')
 #put_df
 
@@ -202,7 +204,7 @@ put_strike = put_df['strike']
 ps = st.sidebar.selectbox('Select Put Strike:', put_strike)
 # st.write(put_df[put_df['strike'] == ps])
 
-total_gex = call_df['GEX'].sum() + put_df['GEX'].sum()
+total_gex = call_df['gamex'].sum() + put_df['gamex'].sum()
 
 
 def options_chain(tk, expiry):
@@ -669,7 +671,7 @@ with tab4:
 with tab5:
     st.header("Gamma Exposure")
     st.plotly_chart(fig3)
-    st.write(f"Total Gex:", total_gex)
+    st.write(f"Total Gex:", round(total_gex,2))
     
 with tab6:
     st.header("Option Chain")
