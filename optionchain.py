@@ -402,7 +402,7 @@ fig3.add_trace(go.Bar(
 
 # Update layout
 fig3.update_layout(
-    title='GEX',
+    title='GEX by Calls & Puts',
     xaxis_title='Strike Price',
     yaxis_title='GEX'
 )
@@ -417,6 +417,23 @@ fig3.update_layout(
 
 # st.subheader('Option Volume')
 # st.pyplot(fig2)
+
+fig_g = go.Figure()
+
+# Add call bars
+fig_g.add_trace(go.Bar(
+    x=options['strike'],
+    y=options['total_gex'],
+    name='Call GEX',
+    marker_color='blue'
+))
+
+# Update layout
+fig_g.update_layout(
+    title='Total Gamma',
+    xaxis_title='Strike Price',
+    yaxis_title='Total Gex'
+)
 
 # #to match stock's price with the strike price
 # options['abs'] = abs(close - options['strike'])
@@ -671,7 +688,8 @@ with tab5:
     st.write("Total Call GEX:", round(call_df['GEX'].sum(),2))
     st.write("Total Put GEX:", round(put_df['GEX'].sum(),2))
     st.write("Gamma Exposure:", round((call_df['GEX'].sum()+put_df['GEX'].sum()),2))
-      
+    st.plotly_chart(fig_g)
+
 with tab6:
     st.header("Option Chain")
     st.subheader('Call Options Chain')
