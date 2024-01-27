@@ -202,14 +202,6 @@ put_strike = put_df['strike']
 ps = st.sidebar.selectbox('Select Put Strike:', put_strike)
 # st.write(put_df[put_df['strike'] == ps])
 
-options[total_gex] = (call_df['GEX'] + put_df['GEX'])/10**9
-dfAgg = options.groupby(['strike']).sum()
-strks = dfAgg.index.values
-
-fig_gex = plt.figure(figsize = (15, 6))
-plt.grid()
-plt.bar(strks, dfAgg['TotalGamma'].to_numpy(), width=6, linewidth=0.1, edgecolor='k', label="Gamma Exposure")
-plt.legend()
 
 def options_chain(tk, expiry):
     '''
@@ -675,7 +667,6 @@ with tab4:
 with tab5:
     st.header("Gamma Exposure")
     st.plotly_chart(fig3)
-    st.pyplot(fig_gex)
       
 with tab6:
     st.header("Option Chain")
