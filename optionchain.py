@@ -390,7 +390,7 @@ fig3 = go.Figure()
 # Add call bars
 fig3.add_trace(go.Bar(
     x=call_df['strike'],
-    y=call_df['gamex'],
+    y=call_df['GEX'],
     name='Call GEX',
     marker_color='green'
 ))
@@ -398,7 +398,7 @@ fig3.add_trace(go.Bar(
 # Add put bars
 fig3.add_trace(go.Bar(
     x=put_df['strike'],
-    y=put_df['gamex'],
+    y=put_df['GEX'],
     name='Put',
     marker_color='red'
 ))
@@ -672,7 +672,11 @@ with tab5:
     st.header("Gamma Exposure")
     st.plotly_chart(fig3)
     st.write(f"Total Gex:", round(total_gex,2))
-    
+    st.write(f"Total Call Gamex:", round(call_df['gamex'].sum(),2))
+    st.write(f"Total Put Gamex:", round(put_df['gamex'].sum(),2))
+    st.write(f"Total Call GEX:", round(call_df['GEX'].sum(),2))
+    st.write(f"Total Put GEX:", round(put_df['GEX'].sum(),2))
+      
 with tab6:
     st.header("Option Chain")
     st.subheader('Call Options Chain')
