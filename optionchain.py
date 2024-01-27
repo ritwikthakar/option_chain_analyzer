@@ -422,7 +422,7 @@ fig_g = go.Figure()
 
 # Add call bars
 fig_g.add_trace(go.Bar(
-    x=options['strike'],
+    x=call_df['strike'],
     y=options['total_gex'],
     name='Call GEX',
     marker_color='blue'
