@@ -196,7 +196,7 @@ put_df['Theta'] = theta(r2, close, put_df['strike'], put_df['dte'], put_df['impl
 put_df['Rho'] = rho(r2, close, put_df['strike'], put_df['dte'], put_df['impliedVolatility'], type = 'p')
 put_df['Theta/Vega'] = put_df['Theta']/put_df['Vega']
 put_df['GEX'] = put_df['Gamma'] * put_df['openInterest'] * 100 * -1
-put_df['gamex'] = put_df['Gamma'] * put_df['openInterest'] * put_df['lastPrice'] * 100
+put_df['gamex'] = put_df['Gamma'] * put_df['openInterest'] * put_df['lastPrice'] * 100 * -1
 # st.subheader('Put Option')
 #put_df
 
