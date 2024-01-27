@@ -177,8 +177,7 @@ call_df['Vega'] = vega(r2, close, call_df['strike'], call_df['dte'], call_df['im
 call_df['Theta'] = theta(r2, close, call_df['strike'], call_df['dte'], call_df['impliedVolatility'], type = 'c')
 call_df['Rho'] = rho(r2, close, call_df['strike'], call_df['dte'], call_df['impliedVolatility'], type = 'c')
 call_df['Theta/Vega'] = call_df['Theta']/call_df['Vega']
-call_df['GEX'] = call_df['Gamma'] * call_df['openInterest'] * close * close * 100
-call_df['gamex'] = call_df['Gamma'] * call_df['openInterest'] * call_df['lastPrice'] * 100 
+call_df['GEX'] = call_df['Gamma'] * call_df['openInterest'] * close * close * 0.01 * 100
 # st.subheader('Call Option')
 #call_df
 
@@ -195,8 +194,7 @@ put_df['Vega'] = vega(r2, close, put_df['strike'], put_df['dte'], put_df['implie
 put_df['Theta'] = theta(r2, close, put_df['strike'], put_df['dte'], put_df['impliedVolatility'], type = 'p')
 put_df['Rho'] = rho(r2, close, put_df['strike'], put_df['dte'], put_df['impliedVolatility'], type = 'p')
 put_df['Theta/Vega'] = put_df['Theta']/put_df['Vega']
-put_df['GEX'] = put_df['Gamma'] * put_df['openInterest'] * close * close * 100 * -1
-put_df['gamex'] = put_df['Gamma'] * put_df['openInterest'] * put_df['lastPrice'] * 100 * -1
+put_df['GEX'] = put_df['Gamma'] * put_df['openInterest'] * close * close * 0.01 * 100 * -1
 # st.subheader('Put Option')
 #put_df
 
@@ -204,8 +202,14 @@ put_strike = put_df['strike']
 ps = st.sidebar.selectbox('Select Put Strike:', put_strike)
 # st.write(put_df[put_df['strike'] == ps])
 
-total_gex = call_df['gamex'].sum() + put_df['gamex'].sum()
+options[total_gex] = (call_df['GEX'] + put_df['GEX'])/10**9
+dfAgg = options.groupby(['strike']).sum()
+strks = dfAgg.index.values
 
+fig_gex = plt.figure(figsize = (15, 6))
+plt.grid()
+plt.bar(strks, dfAgg['TotalGamma'].to_numpy(), width=6, linewidth=0.1, edgecolor='k', label="Gamma Exposure")
+plt.legend()
 
 def options_chain(tk, expiry):
     '''
@@ -671,11 +675,7 @@ with tab4:
 with tab5:
     st.header("Gamma Exposure")
     st.plotly_chart(fig3)
-    st.write(f"Total Gex:", round(total_gex,2))
-    st.write(f"Total Call Gamex:", round(call_df['gamex'].sum(),2))
-    st.write(f"Total Put Gamex:", round(put_df['gamex'].sum(),2))
-    st.write(f"Total Call GEX:", round(call_df['GEX'].sum(),2))
-    st.write(f"Total Put GEX:", round(put_df['GEX'].sum(),2))
+    st.pyplot(fig_gex)
       
 with tab6:
     st.header("Option Chain")
