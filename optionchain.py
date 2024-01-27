@@ -202,6 +202,7 @@ put_strike = put_df['strike']
 ps = st.sidebar.selectbox('Select Put Strike:', put_strike)
 # st.write(put_df[put_df['strike'] == ps])
 
+options['total_gex'] = call_df['GEX'] + put_df['GEX']
 
 def options_chain(tk, expiry):
     '''
