@@ -667,6 +667,8 @@ with tab4:
 with tab5:
     st.header("Gamma Exposure")
     st.plotly_chart(fig3)
+    st.write("Total Call GEX:", round(call_df['GEX'].sum(),2))
+    st.write("Total Put GEX:", round(put_df['GEX'].sum(),2))
       
 with tab6:
     st.header("Option Chain")
