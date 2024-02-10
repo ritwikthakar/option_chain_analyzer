@@ -352,7 +352,7 @@ fig1.update_layout(
 fig2 = go.Figure()
 
 # Add call bars
-fig2.add_trace(go.Bar(
+fig2.add_trace(go.Line(
     x=call_df['strike'],
     y=call_df['impliedVolatility'],
     name='Call IV',
@@ -360,7 +360,7 @@ fig2.add_trace(go.Bar(
 ))
 
 # Add put bars
-fig2.add_trace(go.Bar(
+fig2.add_trace(go.Line(
     x=put_df['strike'],
     y=put_df['impliedVolatility'],
     name='Put IV',
