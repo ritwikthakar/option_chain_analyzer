@@ -659,7 +659,7 @@ def getDiagonalSpreadPrice(ticker, spreadType, longExpNo, shortExpNo,
         st.write('Strike data not available, try again.')
         
         
-tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8 = st.tabs(['Expected Move IV','Max Pain' , "Open Interest", "Skew", 'Gamma Exposure', 'Option Chain', 'Individual Strike', "Spreads"])
+tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(['Expected Move IV','Max Pain' , "Open Interest", "Skew", 'Gamma Exposure', 'Option Chain', 'Individual Strike'])
 
 with tab1:
     st.header("Expected Move")
@@ -704,14 +704,14 @@ with tab7:
     st.subheader("Put Strike Analysis")
     st.write(put_df[put_df['strike'] == ps])
     
-with tab8:
-    strike1 = st.selectbox('Select Long Strike:', call_strike)
-    strike2 = st.selectbox('Select Short Strike:', call_strike)
-    option_type = st.selectbox('Select Call or Put', ('call', 'put'))
-    expirationDates = op.get_expiration_dates(symbol)
-    select_expiry_l = st.selectbox('Select Long Expiry', (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26))
-    select_expiry_s = st.selectbox('Select Short Expiry', (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26))
-    getVerticalSpreadPrice(symbol, option_type, select_expiry_l, strike1, strike2)
-    getDiagonalSpreadPrice(symbol, option_type, select_expiry_l, select_expiry_s,strike1, strike2)
-    for i,each in enumerate(expirationDates,start=1):
-        st.write("{}.{}".format(i,each))
+# with tab8:
+#     strike1 = st.selectbox('Select Long Strike:', call_strike)
+#     strike2 = st.selectbox('Select Short Strike:', call_strike)
+#     option_type = st.selectbox('Select Call or Put', ('call', 'put'))
+#     expirationDates = op.get_expiration_dates(symbol)
+#     select_expiry_l = st.selectbox('Select Long Expiry', (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26))
+#     select_expiry_s = st.selectbox('Select Short Expiry', (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26))
+#     getVerticalSpreadPrice(symbol, option_type, select_expiry_l, strike1, strike2)
+#     getDiagonalSpreadPrice(symbol, option_type, select_expiry_l, select_expiry_s,strike1, strike2)
+#     for i,each in enumerate(expirationDates,start=1):
+#         st.write("{}.{}".format(i,each))
