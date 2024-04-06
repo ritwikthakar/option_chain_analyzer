@@ -22,7 +22,7 @@ std_dev = st.sidebar.number_input('Standard Deviation', min_value=0.0, max_value
 
 # Dynamic input for multiple option combinations
 option_data = []
-option_count = st.sidebar.number_input("Number of Option Combinations", min_value=1, max_value=10, value=1, step=1)
+option_count = st.sidebar.number_input("Option Legs", min_value=1, max_value=10, value=1, step=1)
 
 for i in range(option_count):
     st.sidebar.subheader(f"Option {i+1}")
