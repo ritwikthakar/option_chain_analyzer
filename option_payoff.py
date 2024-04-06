@@ -18,7 +18,7 @@ st.sidebar.header('Inputs')
 underlying_price = st.sidebar.number_input('Underlying Stock Price', min_value=1.0, max_value=1000.0, value=100.0, step=0.1)
 
 # User-defined standard deviation
-std_dev = st.sidebar.number_input('Standard Deviation', min_value=0.0, max_value=100.0, value=10.0, step=0.1)
+std_dev = st.sidebar.number_input('Volatility', min_value=0.0, max_value=100.0, value=10.0, step=0.1)
 
 # Dynamic input for multiple option combinations
 option_data = []
