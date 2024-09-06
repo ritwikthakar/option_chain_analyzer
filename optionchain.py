@@ -659,7 +659,7 @@ def getDiagonalSpreadPrice(ticker, spreadType, longExpNo, shortExpNo,
         st.write('Strike data not available, try again.')
         
         
-tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(['Max Pain' , "Open Interest", "Skew", 'Gamma Exposure', 'Option Chain', 'Individual Strike'])
+tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(['Option Chain', 'Max Pain' , "Open Interest", "Skew", 'Gamma Exposure', 'Individual Strike'])
 
 # with tab1:
 #     st.header("Expected Move")
@@ -668,35 +668,35 @@ tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(['Max Pain' , "Open Interest", "Ske
 #     st.plotly_chart(fig5)
 
 with tab1:
-    st.header("Max Pain")
-#    st.pyplot(fig)
-    st.plotly_chart(fig)
-    st.write(f"Maximum Pain: {bufferLow} < {max_pain} < {bufferHigh}")
-    st.write("Put to call ratio:", round(pcr,2))
-
-with tab2:
-    st.header("Open Interest")
-    st.plotly_chart(fig1)
-
-with tab3:
-    st.header("Skew")
-    st.plotly_chart(fig2)
-
-with tab4:
-    st.header("Gamma Exposure")
-    st.plotly_chart(fig3)
-    st.write("Total Call GEX:", round(call_df['GEX'].sum(),2))
-    st.write("Total Put GEX:", round(put_df['GEX'].sum(),2))
-    st.write("Gamma Exposure:", round((call_df['GEX'].sum()+put_df['GEX'].sum()),2))
-    st.plotly_chart(fig_g)
-
-with tab5:
     st.write("Expected price move between", np.round(float(upper_move),2), "and", np.round(float(lower_move),2), "in the range of", np.round(move), "for", expiry, "option expiry")  
     st.header("Option Chain")
     st.subheader('Call Options Chain')
     st.dataframe(call_df)
     st.subheader('Put Options Chain')
     st.dataframe(put_df)
+  
+with tab2:
+    st.header("Max Pain")
+#    st.pyplot(fig)
+    st.plotly_chart(fig)
+    st.write(f"Maximum Pain: {bufferLow} < {max_pain} < {bufferHigh}")
+    st.write("Put to call ratio:", round(pcr,2))
+
+with tab3:
+    st.header("Open Interest")
+    st.plotly_chart(fig1)
+
+with tab4:
+    st.header("Skew")
+    st.plotly_chart(fig2)
+
+with tab5:
+    st.header("Gamma Exposure")
+    st.plotly_chart(fig3)
+    st.write("Total Call GEX:", round(call_df['GEX'].sum(),2))
+    st.write("Total Put GEX:", round(put_df['GEX'].sum(),2))
+    st.write("Gamma Exposure:", round((call_df['GEX'].sum()+put_df['GEX'].sum()),2))
+    st.plotly_chart(fig_g)
 
 with tab6:
     st.header("Individual Strike Price Analysis")
