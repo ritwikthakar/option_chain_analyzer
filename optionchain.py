@@ -452,33 +452,33 @@ end = dt.datetime.today()
 data = yf.download(symbol, start, end)
 #adding the future dates into the data dataframe
 
-fig5 = go.Figure(data=[go.Candlestick(x=data.index, open=data['Open'], high=data['High'], low=data['Low'], close=data['Adj Close'], increasing_line_color='green', decreasing_line_color='red')])
+# fig5 = go.Figure(data=[go.Candlestick(x=data.index, open=data['Open'], high=data['High'], low=data['Low'], close=data['Adj Close'], increasing_line_color='green', decreasing_line_color='red')])
 # fig5.add_trace(go.Scatter(x=[data.index[0], data.index[-1]], y=[upper_move, upper_move] ,mode = 'markers',marker=dict(color='red', symbol='star', size = 14), name = 'Expected Move Up'))
 # fig5.add_trace(go.Scatter(x=[data.index[0], data.index[-1]], y=[lower_move,lower_move] ,mode = 'markers',marker=dict(color='green', symbol='star', size = 14), name = 'Expected Move Down'))
 #fig5.add_trace(go.Scatter(x=[data.index[0], data.index[-1]], y=[upper_move,upper_move] ,line=dict(color = 'red', width=2, dash='dash'), name = 'Expected Move Up'))
 #fig5.add_trace(go.Scatter(x=data.index, y=lower_move ,mode = 'lines',line=dict(color='green', width = 10), name = 'Expected Move Down'))
 
 
-layout = go.Layout(
-#         xaxis_rangeslider_visible=False, 
-#         xaxis_tradingcalendar=True,
-    plot_bgcolor='#efefef',
-    # Font Families
-    font_family='Monospace',
-    font_color='#000000',
-    font_size=20,
-    height=600, width=1000,)
+# layout = go.Layout(
+# #         xaxis_rangeslider_visible=False, 
+# #         xaxis_tradingcalendar=True,
+#     plot_bgcolor='#efefef',
+#     # Font Families
+#     font_family='Monospace',
+#     font_color='#000000',
+#     font_size=20,
+#     height=600, width=1000,)
 
 
-fig5.update_xaxes(
-            rangeslider_visible=False,
-            rangebreaks=[
-                # NOTE: Below values are bound (not single values), ie. hide x to y
-                dict(bounds=["sat", "mon"]),  # hide weekends, eg. hide sat to before mon
-                    # dict(values=["2019-12-25", "2020-12-24"])  # hide holidays (Christmas and New Year's, etc)
-                ]
-                    )
-fig5.update_layout(layout)
+# fig5.update_xaxes(
+#             rangeslider_visible=False,
+#             rangebreaks=[
+#                 # NOTE: Below values are bound (not single values), ie. hide x to y
+#                 dict(bounds=["sat", "mon"]),  # hide weekends, eg. hide sat to before mon
+#                     # dict(values=["2019-12-25", "2020-12-24"])  # hide holidays (Christmas and New Year's, etc)
+#                 ]
+#                     )
+# fig5.update_layout(layout)
 
 #fig5 = plt.figure(figsize = (15, 6))
 #plt.plot(data['Adj Close'])
@@ -659,30 +659,30 @@ def getDiagonalSpreadPrice(ticker, spreadType, longExpNo, shortExpNo,
         st.write('Strike data not available, try again.')
         
         
-tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(['Expected Move IV','Max Pain' , "Open Interest", "Skew", 'Gamma Exposure', 'Option Chain', 'Individual Strike'])
+tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(['Max Pain' , "Open Interest", "Skew", 'Gamma Exposure', 'Option Chain', 'Individual Strike'])
+
+# with tab1:
+#     st.header("Expected Move")
+#     st.write("Expected price move between", np.round(float(upper_move),2), "and", np.round(float(lower_move),2), "in the range of", np.round(move), "for", expiry, "option expiry")
+#     #st.pyplot(fig5)
+#     st.plotly_chart(fig5)
 
 with tab1:
-    st.header("Expected Move")
-    st.write("Expected price move between", np.round(float(upper_move),2), "and", np.round(float(lower_move),2), "in the range of", np.round(move), "for", expiry, "option expiry")
-    #st.pyplot(fig5)
-    st.plotly_chart(fig5)
-
-with tab2:
     st.header("Max Pain")
 #    st.pyplot(fig)
     st.plotly_chart(fig)
     st.write(f"Maximum Pain: {bufferLow} < {max_pain} < {bufferHigh}")
     st.write("Put to call ratio:", round(pcr,2))
 
-with tab3:
+with tab2:
     st.header("Open Interest")
     st.plotly_chart(fig1)
 
-with tab4:
+with tab3:
     st.header("Skew")
     st.plotly_chart(fig2)
 
-with tab5:
+with tab4:
     st.header("Gamma Exposure")
     st.plotly_chart(fig3)
     st.write("Total Call GEX:", round(call_df['GEX'].sum(),2))
@@ -690,14 +690,15 @@ with tab5:
     st.write("Gamma Exposure:", round((call_df['GEX'].sum()+put_df['GEX'].sum()),2))
     st.plotly_chart(fig_g)
 
-with tab6:
+with tab5:
+    st.write("Expected price move between", np.round(float(upper_move),2), "and", np.round(float(lower_move),2), "in the range of", np.round(move), "for", expiry, "option expiry")  
     st.header("Option Chain")
     st.subheader('Call Options Chain')
     st.dataframe(call_df)
     st.subheader('Put Options Chain')
     st.dataframe(put_df)
 
-with tab7:
+with tab6:
     st.header("Individual Strike Price Analysis")
     st.subheader("Call Strike Analysis")
     st.write(call_df[call_df['strike'] == cs])
