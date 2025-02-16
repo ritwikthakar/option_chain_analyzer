@@ -480,13 +480,13 @@ data = yf.download(symbol, start, end)
 #                     )
 # fig5.update_layout(layout)
 
-fig5 = plt.figure(figsize = (15, 6))
-plt.plot(data['Adj Close'])
-plt.axhline(upper_move, linestyle = '--', alpha = 0.5, color = 'red')
-plt.axhline(lower_move, linestyle = '--', alpha = 0.5, color = 'green')
-plt.title(f'{symbol.upper()} Expected Move for Selected Expiry Date based on Options Implied Volatlilty')
-plt.xlabel('Price')
-plt.ylabel('Date')
+# fig5 = plt.figure(figsize = (15, 6))
+# plt.plot(data['Adj Close'])
+# plt.axhline(upper_move, linestyle = '--', alpha = 0.5, color = 'red')
+# plt.axhline(lower_move, linestyle = '--', alpha = 0.5, color = 'green')
+# plt.title(f'{symbol.upper()} Expected Move for Selected Expiry Date based on Options Implied Volatlilty')
+# plt.xlabel('Price')
+# plt.ylabel('Date')
 
 
 
@@ -664,7 +664,7 @@ tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(['Expected Move IV','Max Pain
 with tab1:
     st.header("Expected Move")
     st.write("Expected price move between", np.round(float(upper_move),2), "and", np.round(float(lower_move),2), "in the range of", np.round(move), "for", expiry, "option expiry")
-    st.pyplot(fig5)
+    # st.pyplot(fig5)
     # st.plotly_chart(fig5)
 
 with tab2:
