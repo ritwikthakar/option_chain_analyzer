@@ -452,41 +452,41 @@ end = dt.datetime.today()
 data = yf.download(symbol, start, end)
 #adding the future dates into the data dataframe
 
-fig5 = go.Figure(data=[go.Candlestick(x=data.index, open=data['Open'], high=data['High'], low=data['Low'], close=data['Adj Close'], increasing_line_color='green', decreasing_line_color='red')])
+# fig5 = go.Figure(data=[go.Candlestick(x=data.index, open=data['Open'], high=data['High'], low=data['Low'], close=data['Adj Close'], increasing_line_color='green', decreasing_line_color='red')])
 # fig5.add_trace(go.Scatter(x=[data.index[0], data.index[-1]], y=[upper_move, upper_move] ,mode = 'markers',marker=dict(color='red', symbol='star', size = 14), name = 'Expected Move Up'))
 # fig5.add_trace(go.Scatter(x=[data.index[0], data.index[-1]], y=[lower_move,lower_move] ,mode = 'markers',marker=dict(color='green', symbol='star', size = 14), name = 'Expected Move Down'))
-#fig5.add_trace(go.Scatter(x=[data.index[0], data.index[-1]], y=[upper_move,upper_move] ,line=dict(color = 'red', width=2, dash='dash'), name = 'Expected Move Up'))
-#fig5.add_trace(go.Scatter(x=data.index, y=lower_move ,mode = 'lines',line=dict(color='green', width = 10), name = 'Expected Move Down'))
+# fig5.add_trace(go.Scatter(x=[data.index[0], data.index[-1]], y=[upper_move,upper_move] ,line=dict(color = 'red', width=2, dash='dash'), name = 'Expected Move Up'))
+# fig5.add_trace(go.Scatter(x=data.index, y=lower_move ,mode = 'lines',line=dict(color='green', width = 10), name = 'Expected Move Down'))
 
 
-layout = go.Layout(
-#         xaxis_rangeslider_visible=False, 
-#         xaxis_tradingcalendar=True,
-    plot_bgcolor='#efefef',
-    # Font Families
-    font_family='Monospace',
-    font_color='#000000',
-    font_size=20,
-    height=600, width=1000,)
+# layout = go.Layout(
+# #         xaxis_rangeslider_visible=False, 
+# #         xaxis_tradingcalendar=True,
+#     plot_bgcolor='#efefef',
+#     # Font Families
+#     font_family='Monospace',
+#     font_color='#000000',
+#     font_size=20,
+#     height=600, width=1000,)
 
 
-fig5.update_xaxes(
-            rangeslider_visible=False,
-            rangebreaks=[
-                # NOTE: Below values are bound (not single values), ie. hide x to y
-                dict(bounds=["sat", "mon"]),  # hide weekends, eg. hide sat to before mon
-                    # dict(values=["2019-12-25", "2020-12-24"])  # hide holidays (Christmas and New Year's, etc)
-                ]
-                    )
-fig5.update_layout(layout)
+# fig5.update_xaxes(
+#             rangeslider_visible=False,
+#             rangebreaks=[
+#                 # NOTE: Below values are bound (not single values), ie. hide x to y
+#                 dict(bounds=["sat", "mon"]),  # hide weekends, eg. hide sat to before mon
+#                     # dict(values=["2019-12-25", "2020-12-24"])  # hide holidays (Christmas and New Year's, etc)
+#                 ]
+#                     )
+# fig5.update_layout(layout)
 
-#fig5 = plt.figure(figsize = (15, 6))
-#plt.plot(data['Adj Close'])
-#plt.axhline(upper_move, linestyle = '--', alpha = 0.5, color = 'red')
-#plt.axhline(lower_move, linestyle = '--', alpha = 0.5, color = 'green')
-#plt.title(f'{symbol.upper()} Expected Move for Selected Expiry Date based on Options Implied Volatlilty')
-#plt.xlabel('Price')
-#plt.ylabel('Date')
+fig5 = plt.figure(figsize = (15, 6))
+plt.plot(data['Adj Close'])
+plt.axhline(upper_move, linestyle = '--', alpha = 0.5, color = 'red')
+plt.axhline(lower_move, linestyle = '--', alpha = 0.5, color = 'green')
+plt.title(f'{symbol.upper()} Expected Move for Selected Expiry Date based on Options Implied Volatlilty')
+plt.xlabel('Price')
+plt.ylabel('Date')
 
 
 
@@ -664,8 +664,8 @@ tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(['Expected Move IV','Max Pain
 with tab1:
     st.header("Expected Move")
     st.write("Expected price move between", np.round(float(upper_move),2), "and", np.round(float(lower_move),2), "in the range of", np.round(move), "for", expiry, "option expiry")
-    #st.pyplot(fig5)
-    st.plotly_chart(fig5)
+    st.pyplot(fig5)
+    # st.plotly_chart(fig5)
 
 with tab2:
     st.header("Max Pain")
