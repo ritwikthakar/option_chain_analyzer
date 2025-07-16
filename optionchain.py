@@ -424,7 +424,7 @@ fig5 = go.Figure(data=[go.Candlestick(
     open=data['Open'],
     high=data['High'],
     low=data['Low'],
-    close=data['Adj Close'],
+    close=data['Close'],
     increasing_line_color='green',
     decreasing_line_color='red'
 )])
