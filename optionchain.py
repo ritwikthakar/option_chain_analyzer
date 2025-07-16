@@ -419,23 +419,23 @@ end = dt.datetime.today()
 data = yf.download(symbol, start, end)
 #adding the future dates into the data dataframe
 
-fig5 = go.Figure(data=[go.Candlestick(
-    x=data.index,
-    open=data['Open'],
-    high=data['High'],
-    low=data['Low'],
-    close=data['Close'],
-    increasing_line_color='green',
-    decreasing_line_color='red'
-)])
-fig5.add_trace(go.Scatter(x=[data.index[0], data.index[-1]], y=[upper_move, upper_move],
-                          line=dict(color='red', dash='dash'), name='Upper Move'))
-fig5.add_trace(go.Scatter(x=[data.index[0], data.index[-1]], y=[lower_move, lower_move],
-                          line=dict(color='green', dash='dash'), name='Lower Move'))
-fig5.update_layout(title='Expected Move',
-                   xaxis_title='Date',
-                   yaxis_title='Price',
-                   xaxis_rangeslider_visible=False)
+# fig5 = go.Figure(data=[go.Candlestick(
+#     x=data.index,
+#     open=data['Open'],
+#     high=data['High'],
+#     low=data['Low'],
+#     close=data['Close'],
+#     increasing_line_color='green',
+#     decreasing_line_color='red'
+# )])
+# fig5.add_trace(go.Scatter(x=[data.index[0], data.index[-1]], y=[upper_move, upper_move],
+#                           line=dict(color='red', dash='dash'), name='Upper Move'))
+# fig5.add_trace(go.Scatter(x=[data.index[0], data.index[-1]], y=[lower_move, lower_move],
+#                           line=dict(color='green', dash='dash'), name='Lower Move'))
+# fig5.update_layout(title='Expected Move',
+#                    xaxis_title='Date',
+#                    yaxis_title='Price',
+#                    xaxis_rangeslider_visible=False)
 
 
 
