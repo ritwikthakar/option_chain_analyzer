@@ -71,6 +71,12 @@ fig3.update_layout(
     yaxis_title='GEX',
     barmode='relative')
 
+if 'call_df' in locals() and 'put_df' in locals() and not call_df.empty and not put_df.empty:
+    # ... Place all plotting code here
+else:
+    st.warning("Option chain data not loaded yet. Please check symbol/expiry.")
+
+
 # --- DISPLAY IN STREAMLIT TABS ---
 tab1, tab2, tab3 = st.tabs(['Open Interest', 'Implied Volatility Skew', 'Gamma Exposure'])
 
