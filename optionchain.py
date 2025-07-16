@@ -614,7 +614,7 @@ with tab1:
     st.header("Expected Move")
     st.write(f"Expected price move between **{np.round(float(lower_move),2)}** and **{np.round(float(upper_move),2)}** (range: ±{np.round(move, 2)}) for expiry: {expiry}")
     # st.pyplot(fig5)
-    st.plotly_chart(fig5)
+    # st.plotly_chart(fig5)
 
 with tab2:
     st.header("Max Pain")
