@@ -116,7 +116,7 @@ r1 = st.sidebar.number_input('Enter Risk Free Rate', 1, value=(5))
 r2=r1/100
 sigma1 = st.sidebar.number_input('Enter Implied Volatility',1, value=(10))
 sigma2 = sigma1/100
-expiry = st.sidebar.date_input("Start Date",datetime.date(2025, 1, 17))
+expiry = st.sidebar.date_input("Start Date",datetime.date(2026, 1, 16))
 expiry = expiry.strftime('%Y-%m-%d')
 close_data = tk.history(period='1d')
 close = close_data.Close.values
