@@ -71,10 +71,6 @@ fig3.update_layout(
     yaxis_title='GEX',
     barmode='relative')
 
-if 'call_df' in locals() and 'put_df' in locals() and not call_df.empty and not put_df.empty:
-    # Cleaned-up plotting code here
-
-
 # --- DISPLAY IN STREAMLIT TABS ---
 tab1, tab2, tab3 = st.tabs(['Open Interest', 'Implied Volatility Skew', 'Gamma Exposure'])
 
